@@ -3,17 +3,17 @@ using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
-using MareSynchronos.API.Data.Enum;
-using MareSynchronos.FileCache;
-using MareSynchronos.Interop.Ipc;
-using MareSynchronos.MareConfiguration;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Utils;
+using ShoninSync.API.Data.Enum;
+using ShoninSync.FileCache;
+using ShoninSync.Interop.Ipc;
+using ShoninSync.MareConfiguration;
+using ShoninSync.Services;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Utils;
 using Microsoft.Extensions.Logging;
 using System.Numerics;
 
-namespace MareSynchronos.UI;
+namespace ShoninSync.UI;
 
 public class DataAnalysisUi : WindowMediatorSubscriberBase
 {

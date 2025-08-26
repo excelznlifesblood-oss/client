@@ -1,16 +1,16 @@
 ﻿using Dalamud.Game.ClientState.Objects.Types;
-using MareSynchronos.API.Data;
-using MareSynchronos.API.Dto;
-using MareSynchronos.API.Dto.CharaData;
-using MareSynchronos.API.Dto.Group;
-using MareSynchronos.MareConfiguration.Models;
-using MareSynchronos.PlayerData.Handlers;
-using MareSynchronos.PlayerData.Pairs;
-using MareSynchronos.Services.Events;
-using MareSynchronos.WebAPI.Files.Models;
+using ShoninSync.API.Data;
+using ShoninSync.API.Dto;
+using ShoninSync.API.Dto.CharaData;
+using ShoninSync.API.Dto.Group;
+using ShoninSync.MareConfiguration.Models;
+using ShoninSync.PlayerData.Handlers;
+using ShoninSync.PlayerData.Pairs;
+using ShoninSync.Services.Events;
+using ShoninSync.WebAPI.Files.Models;
 using System.Numerics;
 
-namespace MareSynchronos.Services.Mediator;
+namespace ShoninSync.Services.Mediator;
 
 #pragma warning disable MA0048 // File name must match type name
 #pragma warning disable S2094

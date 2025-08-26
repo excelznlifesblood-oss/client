@@ -1,10 +1,10 @@
-﻿using MareSynchronos.API.Dto.User;
-using MareSynchronos.PlayerData.Pairs;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Services.ServerConfiguration;
+﻿using ShoninSync.API.Dto.User;
+using ShoninSync.PlayerData.Pairs;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Services.ServerConfiguration;
 using Microsoft.Extensions.Logging;
 
-namespace MareSynchronos.PlayerData.Factories;
+namespace ShoninSync.PlayerData.Factories;
 
 public class PairFactory
 {

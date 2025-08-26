@@ -1,14 +1,14 @@
-﻿using MareSynchronos.MareConfiguration;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.WebAPI.Files.Models;
-using MareSynchronos.WebAPI.SignalR;
+﻿using ShoninSync.MareConfiguration;
+using ShoninSync.Services.Mediator;
+using ShoninSync.WebAPI.Files.Models;
+using ShoninSync.WebAPI.SignalR;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Reflection;
 
-namespace MareSynchronos.WebAPI.Files;
+namespace ShoninSync.WebAPI.Files;
 
 public class FileTransferOrchestrator : DisposableMediatorSubscriberBase
 {
@@ -28,7 +28,7 @@ public class FileTransferOrchestrator : DisposableMediatorSubscriberBase
         _tokenProvider = tokenProvider;
         _httpClient = httpClient;
         var ver = Assembly.GetExecutingAssembly().GetName().Version;
-        _httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("MareSynchronos", ver!.Major + "." + ver!.Minor + "." + ver!.Build));
+        _httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("ShoninSync", ver!.Major + "." + ver!.Minor + "." + ver!.Build));
 
         _availableDownloadSlots = mareConfig.Current.ParallelDownloads;
         _downloadSemaphore = new(_availableDownloadSlots, _availableDownloadSlots);

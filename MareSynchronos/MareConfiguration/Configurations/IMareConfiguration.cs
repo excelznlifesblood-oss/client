@@ -1,4 +1,4 @@
-﻿namespace MareSynchronos.MareConfiguration.Configurations;
+﻿namespace ShoninSync.MareConfiguration.Configurations;
 
 public interface IMareConfiguration
 {

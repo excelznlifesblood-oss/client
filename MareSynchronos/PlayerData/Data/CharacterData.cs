@@ -1,8 +1,8 @@
-﻿using MareSynchronos.API.Data;
+﻿using ShoninSync.API.Data;
 
-using MareSynchronos.API.Data.Enum;
+using ShoninSync.API.Data.Enum;
 
-namespace MareSynchronos.PlayerData.Data;
+namespace ShoninSync.PlayerData.Data;
 
 public class CharacterData
 {

@@ -1,11 +1,11 @@
 ﻿using Dalamud.Bindings.ImGui;
 using Dalamud.Interface.Utility;
-using MareSynchronos.PlayerData.Pairs;
-using MareSynchronos.UI.Handlers;
+using ShoninSync.PlayerData.Pairs;
+using ShoninSync.UI.Handlers;
 
 using System.Numerics;
 
-namespace MareSynchronos.UI.Components;
+namespace ShoninSync.UI.Components;
 
 public class SelectPairForTagUi
 {

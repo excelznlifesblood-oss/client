@@ -3,18 +3,18 @@ using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
 using Dalamud.Utility;
-using MareSynchronos.FileCache;
-using MareSynchronos.Localization;
-using MareSynchronos.MareConfiguration;
-using MareSynchronos.MareConfiguration.Models;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Services.ServerConfiguration;
+using ShoninSync.FileCache;
+using ShoninSync.Localization;
+using ShoninSync.MareConfiguration;
+using ShoninSync.MareConfiguration.Models;
+using ShoninSync.Services;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Services.ServerConfiguration;
 using Microsoft.Extensions.Logging;
 using System.Numerics;
 using System.Text.RegularExpressions;
 
-namespace MareSynchronos.UI;
+namespace ShoninSync.UI;
 
 public partial class IntroUi : WindowMediatorSubscriberBase
 {

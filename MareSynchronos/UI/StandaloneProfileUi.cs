@@ -2,15 +2,15 @@
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Textures.TextureWraps;
 using Dalamud.Interface.Utility;
-using MareSynchronos.API.Data.Extensions;
-using MareSynchronos.PlayerData.Pairs;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Services.ServerConfiguration;
+using ShoninSync.API.Data.Extensions;
+using ShoninSync.PlayerData.Pairs;
+using ShoninSync.Services;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Services.ServerConfiguration;
 using Microsoft.Extensions.Logging;
 using System.Numerics;
 
-namespace MareSynchronos.UI;
+namespace ShoninSync.UI;
 
 public class StandaloneProfileUi : WindowMediatorSubscriberBase
 {
@@ -27,7 +27,7 @@ public class StandaloneProfileUi : WindowMediatorSubscriberBase
     public StandaloneProfileUi(ILogger<StandaloneProfileUi> logger, MareMediator mediator, UiSharedService uiBuilder,
         ServerConfigurationManager serverManager, MareProfileManager mareProfileManager, PairManager pairManager, Pair pair,
         PerformanceCollectorService performanceCollector)
-        : base(logger, mediator, "Mare Profile of " + pair.UserData.AliasOrUID + "##MareSynchronosStandaloneProfileUI" + pair.UserData.AliasOrUID, performanceCollector)
+        : base(logger, mediator, "Mare Profile of " + pair.UserData.AliasOrUID + "##ShoninSyncStandaloneProfileUI" + pair.UserData.AliasOrUID, performanceCollector)
     {
         _uiSharedService = uiBuilder;
         _serverManager = serverManager;

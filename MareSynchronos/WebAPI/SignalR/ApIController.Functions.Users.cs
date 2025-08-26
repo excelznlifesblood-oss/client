@@ -1,11 +1,11 @@
-﻿using MareSynchronos.API.Data;
-using MareSynchronos.API.Dto;
-using MareSynchronos.API.Dto.User;
+﻿using ShoninSync.API.Data;
+using ShoninSync.API.Dto;
+using ShoninSync.API.Dto.User;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
 using System.Text;
 
-namespace MareSynchronos.WebAPI;
+namespace ShoninSync.WebAPI;
 
 #pragma warning disable MA0040
 public partial class ApiController

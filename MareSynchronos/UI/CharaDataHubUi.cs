@@ -4,19 +4,19 @@ using Dalamud.Interface.Colors;
 using Dalamud.Interface.ImGuiFileDialog;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
-using MareSynchronos.API.Dto.CharaData;
-using MareSynchronos.MareConfiguration;
-using MareSynchronos.MareConfiguration.Models;
-using MareSynchronos.PlayerData.Pairs;
-using MareSynchronos.Services;
-using MareSynchronos.Services.CharaData;
-using MareSynchronos.Services.CharaData.Models;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Services.ServerConfiguration;
-using MareSynchronos.Utils;
+using ShoninSync.API.Dto.CharaData;
+using ShoninSync.MareConfiguration;
+using ShoninSync.MareConfiguration.Models;
+using ShoninSync.PlayerData.Pairs;
+using ShoninSync.Services;
+using ShoninSync.Services.CharaData;
+using ShoninSync.Services.CharaData.Models;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Services.ServerConfiguration;
+using ShoninSync.Utils;
 using Microsoft.Extensions.Logging;
 
-namespace MareSynchronos.UI;
+namespace ShoninSync.UI;
 
 internal sealed partial class CharaDataHubUi : WindowMediatorSubscriberBase
 {
@@ -79,7 +79,7 @@ internal sealed partial class CharaDataHubUi : WindowMediatorSubscriberBase
                          UiSharedService uiSharedService, ServerConfigurationManager serverConfigurationManager,
                          DalamudUtilService dalamudUtilService, FileDialogManager fileDialogManager, PairManager pairManager,
                          CharaDataGposeTogetherManager charaDataGposeTogetherManager)
-        : base(logger, mediator, "Mare Synchronos Character Data Hub###MareSynchronosCharaDataUI", performanceCollectorService)
+        : base(logger, mediator, "Shonin Sync Character Data Hub###ShoninSyncCharaDataUI", performanceCollectorService)
     {
         SetWindowSizeConstraints();
 

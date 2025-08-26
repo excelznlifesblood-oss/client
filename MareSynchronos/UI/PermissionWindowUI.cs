@@ -1,16 +1,16 @@
 ﻿using Dalamud.Bindings.ImGui;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
-using MareSynchronos.API.Data.Enum;
-using MareSynchronos.API.Data.Extensions;
-using MareSynchronos.PlayerData.Pairs;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Utils;
-using MareSynchronos.WebAPI;
+using ShoninSync.API.Data.Enum;
+using ShoninSync.API.Data.Extensions;
+using ShoninSync.PlayerData.Pairs;
+using ShoninSync.Services;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Utils;
+using ShoninSync.WebAPI;
 using Microsoft.Extensions.Logging;
 
-namespace MareSynchronos.UI;
+namespace ShoninSync.UI;
 
 public class PermissionWindowUI : WindowMediatorSubscriberBase
 {
@@ -22,7 +22,7 @@ public class PermissionWindowUI : WindowMediatorSubscriberBase
 
     public PermissionWindowUI(ILogger<PermissionWindowUI> logger, Pair pair, MareMediator mediator, UiSharedService uiSharedService,
         ApiController apiController, PerformanceCollectorService performanceCollectorService)
-        : base(logger, mediator, "Permissions for " + pair.UserData.AliasOrUID + "###MareSynchronosPermissions" + pair.UserData.UID, performanceCollectorService)
+        : base(logger, mediator, "Permissions for " + pair.UserData.AliasOrUID + "###ShoninSyncPermissions" + pair.UserData.UID, performanceCollectorService)
     {
         Pair = pair;
         _uiSharedService = uiSharedService;

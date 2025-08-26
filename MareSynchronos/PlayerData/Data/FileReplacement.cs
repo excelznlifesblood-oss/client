@@ -1,8 +1,8 @@
-﻿using MareSynchronos.API.Data;
+﻿using ShoninSync.API.Data;
 
 using System.Text.RegularExpressions;
 
-namespace MareSynchronos.PlayerData.Data;
+namespace ShoninSync.PlayerData.Data;
 
 public partial class FileReplacement
 {

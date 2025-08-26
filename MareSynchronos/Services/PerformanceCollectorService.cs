@@ -1,12 +1,12 @@
-﻿using MareSynchronos.MareConfiguration;
-using MareSynchronos.Utils;
+﻿using ShoninSync.MareConfiguration;
+using ShoninSync.Utils;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Globalization;
 using System.Text;
 
-namespace MareSynchronos.Services;
+namespace ShoninSync.Services;
 
 public sealed class PerformanceCollectorService : IHostedService
 {

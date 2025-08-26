@@ -1,15 +1,15 @@
 ﻿using Dalamud.Game.Command;
 using Dalamud.Plugin.Services;
-using MareSynchronos.FileCache;
-using MareSynchronos.MareConfiguration;
-using MareSynchronos.MareConfiguration.Models;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Services.ServerConfiguration;
-using MareSynchronos.UI;
-using MareSynchronos.WebAPI;
+using ShoninSync.FileCache;
+using ShoninSync.MareConfiguration;
+using ShoninSync.MareConfiguration.Models;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Services.ServerConfiguration;
+using ShoninSync.UI;
+using ShoninSync.WebAPI;
 using System.Globalization;
 
-namespace MareSynchronos.Services;
+namespace ShoninSync.Services;
 
 public sealed class CommandManagerService : IDisposable
 {

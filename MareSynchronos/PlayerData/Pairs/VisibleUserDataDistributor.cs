@@ -1,12 +1,12 @@
-﻿using MareSynchronos.API.Data;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Utils;
-using MareSynchronos.WebAPI;
-using MareSynchronos.WebAPI.Files;
+﻿using ShoninSync.API.Data;
+using ShoninSync.Services;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Utils;
+using ShoninSync.WebAPI;
+using ShoninSync.WebAPI.Files;
 using Microsoft.Extensions.Logging;
 
-namespace MareSynchronos.PlayerData.Pairs;
+namespace ShoninSync.PlayerData.Pairs;
 
 public class VisibleUserDataDistributor : DisposableMediatorSubscriberBase
 {

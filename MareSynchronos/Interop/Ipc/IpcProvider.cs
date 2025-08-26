@@ -1,13 +1,13 @@
 ﻿using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Ipc;
-using MareSynchronos.PlayerData.Handlers;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Mediator;
+using ShoninSync.PlayerData.Handlers;
+using ShoninSync.Services;
+using ShoninSync.Services.Mediator;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace MareSynchronos.Interop.Ipc;
+namespace ShoninSync.Interop.Ipc;
 
 public class IpcProvider : IHostedService, IMediatorSubscriber
 {
@@ -44,11 +44,11 @@ public class IpcProvider : IHostedService, IMediatorSubscriber
     public Task StartAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Starting IpcProviderService");
-        _loadFileProvider = _pi.GetIpcProvider<string, IGameObject, bool>("MareSynchronos.LoadMcdf");
+        _loadFileProvider = _pi.GetIpcProvider<string, IGameObject, bool>("ShoninSync.LoadMcdf");
         _loadFileProvider.RegisterFunc(LoadMcdf);
-        _loadFileAsyncProvider = _pi.GetIpcProvider<string, IGameObject, Task<bool>>("MareSynchronos.LoadMcdfAsync");
+        _loadFileAsyncProvider = _pi.GetIpcProvider<string, IGameObject, Task<bool>>("ShoninSync.LoadMcdfAsync");
         _loadFileAsyncProvider.RegisterFunc(LoadMcdfAsync);
-        _handledGameAddresses = _pi.GetIpcProvider<List<nint>>("MareSynchronos.GetHandledAddresses");
+        _handledGameAddresses = _pi.GetIpcProvider<List<nint>>("ShoninSync.GetHandledAddresses");
         _handledGameAddresses.RegisterFunc(GetHandledAddresses);
         _logger.LogInformation("Started IpcProviderService");
         return Task.CompletedTask;

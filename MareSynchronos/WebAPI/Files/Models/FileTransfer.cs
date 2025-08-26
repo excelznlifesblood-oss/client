@@ -1,6 +1,6 @@
-﻿using MareSynchronos.API.Dto.Files;
+﻿using ShoninSync.API.Dto.Files;
 
-namespace MareSynchronos.WebAPI.Files.Models;
+namespace ShoninSync.WebAPI.Files.Models;
 
 public abstract class FileTransfer
 {

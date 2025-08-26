@@ -3,18 +3,18 @@ using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
-using MareSynchronos.API.Data.Extensions;
-using MareSynchronos.API.Dto.Group;
-using MareSynchronos.API.Dto.User;
-using MareSynchronos.MareConfiguration;
-using MareSynchronos.PlayerData.Pairs;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Services.ServerConfiguration;
-using MareSynchronos.UI.Handlers;
-using MareSynchronos.WebAPI;
+using ShoninSync.API.Data.Extensions;
+using ShoninSync.API.Dto.Group;
+using ShoninSync.API.Dto.User;
+using ShoninSync.MareConfiguration;
+using ShoninSync.PlayerData.Pairs;
+using ShoninSync.Services;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Services.ServerConfiguration;
+using ShoninSync.UI.Handlers;
+using ShoninSync.WebAPI;
 
-namespace MareSynchronos.UI.Components;
+namespace ShoninSync.UI.Components;
 
 public class DrawUserPair
 {

@@ -1,17 +1,17 @@
 ﻿using Dalamud.Game.ClientState.Objects.SubKinds;
-using MareSynchronos.API.Data;
-using MareSynchronos.API.Dto.CharaData;
-using MareSynchronos.Interop;
-using MareSynchronos.Interop.Ipc;
-using MareSynchronos.Services.CharaData.Models;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.WebAPI;
+using ShoninSync.API.Data;
+using ShoninSync.API.Dto.CharaData;
+using ShoninSync.Interop;
+using ShoninSync.Interop.Ipc;
+using ShoninSync.Services.CharaData.Models;
+using ShoninSync.Services.Mediator;
+using ShoninSync.WebAPI;
 using Microsoft.Extensions.Logging;
 using System.Globalization;
 using System.Numerics;
 using System.Text.Json.Nodes;
 
-namespace MareSynchronos.Services.CharaData;
+namespace ShoninSync.Services.CharaData;
 
 public class CharaDataGposeTogetherManager : DisposableMediatorSubscriberBase
 {

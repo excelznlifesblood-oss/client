@@ -1,13 +1,13 @@
 ﻿using FFXIVClientStructs.FFXIV.Client.Game.Character;
 using FFXIVClientStructs.FFXIV.Client.Graphics.Scene;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Mediator;
+using ShoninSync.Services;
+using ShoninSync.Services.Mediator;
 using Microsoft.Extensions.Logging;
 using System.Runtime.CompilerServices;
 using static FFXIVClientStructs.FFXIV.Client.Game.Character.DrawDataContainer;
-using ObjectKind = MareSynchronos.API.Data.Enum.ObjectKind;
+using ObjectKind = ShoninSync.API.Data.Enum.ObjectKind;
 
-namespace MareSynchronos.PlayerData.Handlers;
+namespace ShoninSync.PlayerData.Handlers;
 
 public sealed class GameObjectHandler : DisposableMediatorSubscriberBase, IHighPriorityMediatorSubscriber
 {

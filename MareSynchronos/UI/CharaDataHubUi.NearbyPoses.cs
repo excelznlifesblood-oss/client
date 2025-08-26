@@ -5,7 +5,7 @@ using Dalamud.Interface.Utility;
 using Dalamud.Interface;
 using System.Numerics;
 
-namespace MareSynchronos.UI;
+namespace ShoninSync.UI;
 
 internal partial class CharaDataHubUi
 {

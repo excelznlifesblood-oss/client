@@ -1,21 +1,21 @@
-﻿using MareSynchronos.API.Data;
-using MareSynchronos.FileCache;
-using MareSynchronos.Interop.Ipc;
-using MareSynchronos.PlayerData.Factories;
-using MareSynchronos.PlayerData.Pairs;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Events;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Services.ServerConfiguration;
-using MareSynchronos.Utils;
-using MareSynchronos.WebAPI.Files;
+﻿using ShoninSync.API.Data;
+using ShoninSync.FileCache;
+using ShoninSync.Interop.Ipc;
+using ShoninSync.PlayerData.Factories;
+using ShoninSync.PlayerData.Pairs;
+using ShoninSync.Services;
+using ShoninSync.Services.Events;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Services.ServerConfiguration;
+using ShoninSync.Utils;
+using ShoninSync.WebAPI.Files;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Diagnostics;
-using ObjectKind = MareSynchronos.API.Data.Enum.ObjectKind;
+using ObjectKind = ShoninSync.API.Data.Enum.ObjectKind;
 
-namespace MareSynchronos.PlayerData.Handlers;
+namespace ShoninSync.PlayerData.Handlers;
 
 public sealed class PairHandler : DisposableMediatorSubscriberBase
 {

@@ -3,14 +3,14 @@ using Dalamud.Interface;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
 using Dalamud.Utility;
-using MareSynchronos.API.Data.Enum;
-using MareSynchronos.API.Data.Extensions;
-using MareSynchronos.PlayerData.Pairs;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.WebAPI;
+using ShoninSync.API.Data.Enum;
+using ShoninSync.API.Data.Extensions;
+using ShoninSync.PlayerData.Pairs;
+using ShoninSync.Services.Mediator;
+using ShoninSync.WebAPI;
 using System.Numerics;
 
-namespace MareSynchronos.UI;
+namespace ShoninSync.UI;
 
 public class TopTabMenu
 {

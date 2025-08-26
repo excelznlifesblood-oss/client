@@ -1,8 +1,8 @@
-﻿using MareSynchronos.API.Dto.Group;
-using MareSynchronos.WebAPI.SignalR.Utils;
+﻿using ShoninSync.API.Dto.Group;
+using ShoninSync.WebAPI.SignalR.Utils;
 using Microsoft.AspNetCore.SignalR.Client;
 
-namespace MareSynchronos.WebAPI;
+namespace ShoninSync.WebAPI;
 
 public partial class ApiController
 {

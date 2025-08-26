@@ -4,21 +4,21 @@ using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
 using Dalamud.Utility;
-using MareSynchronos.API.Data.Extensions;
-using MareSynchronos.API.Dto.Group;
-using MareSynchronos.Interop.Ipc;
-using MareSynchronos.MareConfiguration;
-using MareSynchronos.PlayerData.Handlers;
-using MareSynchronos.PlayerData.Pairs;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Services.ServerConfiguration;
-using MareSynchronos.UI.Components;
-using MareSynchronos.UI.Handlers;
-using MareSynchronos.WebAPI;
-using MareSynchronos.WebAPI.Files;
-using MareSynchronos.WebAPI.Files.Models;
-using MareSynchronos.WebAPI.SignalR.Utils;
+using ShoninSync.API.Data.Extensions;
+using ShoninSync.API.Dto.Group;
+using ShoninSync.Interop.Ipc;
+using ShoninSync.MareConfiguration;
+using ShoninSync.PlayerData.Handlers;
+using ShoninSync.PlayerData.Pairs;
+using ShoninSync.Services;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Services.ServerConfiguration;
+using ShoninSync.UI.Components;
+using ShoninSync.UI.Handlers;
+using ShoninSync.WebAPI;
+using ShoninSync.WebAPI.Files;
+using ShoninSync.WebAPI.Files.Models;
+using ShoninSync.WebAPI.SignalR.Utils;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
@@ -26,7 +26,7 @@ using System.Globalization;
 using System.Numerics;
 using System.Reflection;
 
-namespace MareSynchronos.UI;
+namespace ShoninSync.UI;
 
 public class CompactUi : WindowMediatorSubscriberBase
 {
@@ -58,7 +58,7 @@ public class CompactUi : WindowMediatorSubscriberBase
         ServerConfigurationManager serverManager, MareMediator mediator, FileUploadManager fileTransferManager,
         TagHandler tagHandler, DrawEntityFactory drawEntityFactory, SelectTagForPairUi selectTagForPairUi, SelectPairForTagUi selectPairForTagUi,
         PerformanceCollectorService performanceCollectorService, IpcManager ipcManager)
-        : base(logger, mediator, "###MareSynchronosMainUI", performanceCollectorService)
+        : base(logger, mediator, "###ShoninSyncMainUI", performanceCollectorService)
     {
         _uiSharedService = uiShared;
         _configService = configService;
@@ -114,11 +114,11 @@ public class CompactUi : WindowMediatorSubscriberBase
 #if DEBUG
         string dev = "Dev Build";
         var ver = Assembly.GetExecutingAssembly().GetName().Version!;
-        WindowName = $"Mare Synchronos {dev} ({ver.Major}.{ver.Minor}.{ver.Build})###MareSynchronosMainUI";
+        WindowName = $"Mare Synchronos {dev} ({ver.Major}.{ver.Minor}.{ver.Build})###ShoninSyncMainUI";
         Toggle();
 #else
         var ver = Assembly.GetExecutingAssembly().GetName().Version;
-        WindowName = "Mare Synchronos " + ver.Major + "." + ver.Minor + "." + ver.Build + "###MareSynchronosMainUI";
+        WindowName = "Mare Synchronos " + ver.Major + "." + ver.Minor + "." + ver.Build + "###ShoninSyncMainUI";
 #endif
         Mediator.Subscribe<SwitchToMainUiMessage>(this, (_) => IsOpen = true);
         Mediator.Subscribe<SwitchToIntroUiMessage>(this, (_) => IsOpen = false);

@@ -1,15 +1,15 @@
 ﻿using K4os.Compression.LZ4.Legacy;
-using MareSynchronos.Interop.Ipc;
-using MareSynchronos.MareConfiguration;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Utils;
+using ShoninSync.Interop.Ipc;
+using ShoninSync.MareConfiguration;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Utils;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Globalization;
 using System.Text;
 
-namespace MareSynchronos.FileCache;
+namespace ShoninSync.FileCache;
 
 public sealed class FileCacheManager : IHostedService
 {

@@ -1,13 +1,13 @@
 ﻿using Dalamud.Interface;
 using Dalamud.Interface.ImGuiFileDialog;
 using Dalamud.Interface.Windowing;
-using MareSynchronos.MareConfiguration;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.UI;
-using MareSynchronos.UI.Components.Popup;
+using ShoninSync.MareConfiguration;
+using ShoninSync.Services.Mediator;
+using ShoninSync.UI;
+using ShoninSync.UI.Components.Popup;
 using Microsoft.Extensions.Logging;
 
-namespace MareSynchronos.Services;
+namespace ShoninSync.Services;
 
 public sealed class UiService : DisposableMediatorSubscriberBase
 {

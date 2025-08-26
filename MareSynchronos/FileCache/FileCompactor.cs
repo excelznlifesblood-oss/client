@@ -1,9 +1,9 @@
-﻿using MareSynchronos.MareConfiguration;
-using MareSynchronos.Services;
+﻿using ShoninSync.MareConfiguration;
+using ShoninSync.Services;
 using Microsoft.Extensions.Logging;
 using System.Runtime.InteropServices;
 
-namespace MareSynchronos.FileCache;
+namespace ShoninSync.FileCache;
 
 public sealed class FileCompactor
 {

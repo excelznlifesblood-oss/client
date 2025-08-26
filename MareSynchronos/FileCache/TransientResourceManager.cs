@@ -1,15 +1,15 @@
-﻿using MareSynchronos.API.Data.Enum;
-using MareSynchronos.MareConfiguration;
-using MareSynchronos.MareConfiguration.Configurations;
-using MareSynchronos.PlayerData.Data;
-using MareSynchronos.PlayerData.Handlers;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Utils;
+﻿using ShoninSync.API.Data.Enum;
+using ShoninSync.MareConfiguration;
+using ShoninSync.MareConfiguration.Configurations;
+using ShoninSync.PlayerData.Data;
+using ShoninSync.PlayerData.Handlers;
+using ShoninSync.Services;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Utils;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 
-namespace MareSynchronos.FileCache;
+namespace ShoninSync.FileCache;
 
 public sealed class TransientResourceManager : DisposableMediatorSubscriberBase
 {

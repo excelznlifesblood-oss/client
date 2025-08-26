@@ -2,12 +2,12 @@
 using Dalamud.Plugin;
 using Dalamud.Plugin.Ipc;
 using Dalamud.Utility;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Mediator;
+using ShoninSync.Services;
+using ShoninSync.Services.Mediator;
 using Microsoft.Extensions.Logging;
 using System.Text;
 
-namespace MareSynchronos.Interop.Ipc;
+namespace ShoninSync.Interop.Ipc;
 
 public sealed class IpcCallerCustomize : IIpcCaller
 {

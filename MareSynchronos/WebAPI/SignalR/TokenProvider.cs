@@ -1,16 +1,16 @@
-﻿using MareSynchronos.API.Routes;
-using MareSynchronos.MareConfiguration.Models;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Services.ServerConfiguration;
-using MareSynchronos.Utils;
+﻿using ShoninSync.API.Routes;
+using ShoninSync.MareConfiguration.Models;
+using ShoninSync.Services;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Services.ServerConfiguration;
+using ShoninSync.Utils;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
 using System.Reflection;
 
-namespace MareSynchronos.WebAPI.SignalR;
+namespace ShoninSync.WebAPI.SignalR;
 
 public sealed class TokenProvider : IDisposable, IMediatorSubscriber
 {

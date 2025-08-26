@@ -1,6 +1,6 @@
-﻿using MareSynchronos.API.Data;
+﻿using ShoninSync.API.Data;
 
-namespace MareSynchronos.Services.Events;
+namespace ShoninSync.Services.Events;
 
 public record Event
 {

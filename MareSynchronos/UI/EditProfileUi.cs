@@ -4,16 +4,16 @@ using Dalamud.Interface.Colors;
 using Dalamud.Interface.ImGuiFileDialog;
 using Dalamud.Interface.Textures.TextureWraps;
 using Dalamud.Interface.Utility;
-using MareSynchronos.API.Data;
-using MareSynchronos.API.Dto.User;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.WebAPI;
+using ShoninSync.API.Data;
+using ShoninSync.API.Dto.User;
+using ShoninSync.Services;
+using ShoninSync.Services.Mediator;
+using ShoninSync.WebAPI;
 using Microsoft.Extensions.Logging;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
-namespace MareSynchronos.UI;
+namespace ShoninSync.UI;
 
 public class EditProfileUi : WindowMediatorSubscriberBase
 {
@@ -33,7 +33,7 @@ public class EditProfileUi : WindowMediatorSubscriberBase
     public EditProfileUi(ILogger<EditProfileUi> logger, MareMediator mediator,
         ApiController apiController, UiSharedService uiSharedService, FileDialogManager fileDialogManager,
         MareProfileManager mareProfileManager, PerformanceCollectorService performanceCollectorService)
-        : base(logger, mediator, "Mare Synchronos Edit Profile###MareSynchronosEditProfileUI", performanceCollectorService)
+        : base(logger, mediator, "Mare Synchronos Edit Profile###ShoninSyncEditProfileUI", performanceCollectorService)
     {
         IsOpen = false;
         this.SizeConstraints = new()

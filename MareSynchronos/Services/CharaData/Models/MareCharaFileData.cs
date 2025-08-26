@@ -1,10 +1,10 @@
-﻿using MareSynchronos.API.Data;
-using MareSynchronos.API.Data.Enum;
-using MareSynchronos.FileCache;
+﻿using ShoninSync.API.Data;
+using ShoninSync.API.Data.Enum;
+using ShoninSync.FileCache;
 using System.Text;
 using System.Text.Json;
 
-namespace MareSynchronos.Services.CharaData.Models;
+namespace ShoninSync.Services.CharaData.Models;
 
 public record MareCharaFileData
 {

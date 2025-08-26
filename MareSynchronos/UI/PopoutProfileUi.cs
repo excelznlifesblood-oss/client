@@ -2,16 +2,16 @@
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Textures.TextureWraps;
 using Dalamud.Interface.Utility;
-using MareSynchronos.API.Data.Extensions;
-using MareSynchronos.MareConfiguration;
-using MareSynchronos.PlayerData.Pairs;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Services.ServerConfiguration;
+using ShoninSync.API.Data.Extensions;
+using ShoninSync.MareConfiguration;
+using ShoninSync.PlayerData.Pairs;
+using ShoninSync.Services;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Services.ServerConfiguration;
 using Microsoft.Extensions.Logging;
 using System.Numerics;
 
-namespace MareSynchronos.UI;
+namespace ShoninSync.UI;
 
 public class PopoutProfileUi : WindowMediatorSubscriberBase
 {
@@ -29,7 +29,7 @@ public class PopoutProfileUi : WindowMediatorSubscriberBase
 
     public PopoutProfileUi(ILogger<PopoutProfileUi> logger, MareMediator mediator, UiSharedService uiBuilder,
         ServerConfigurationManager serverManager, MareConfigService mareConfigService,
-        MareProfileManager mareProfileManager, PairManager pairManager, PerformanceCollectorService performanceCollectorService) : base(logger, mediator, "###MareSynchronosPopoutProfileUI", performanceCollectorService)
+        MareProfileManager mareProfileManager, PairManager pairManager, PerformanceCollectorService performanceCollectorService) : base(logger, mediator, "###ShoninSyncPopoutProfileUI", performanceCollectorService)
     {
         _uiSharedService = uiBuilder;
         _serverManager = serverManager;

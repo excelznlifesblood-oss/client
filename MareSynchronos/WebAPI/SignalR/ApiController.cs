@@ -1,28 +1,28 @@
 ﻿using Dalamud.Utility;
-using MareSynchronos.API.Data;
-using MareSynchronos.API.Data.Extensions;
-using MareSynchronos.API.Dto;
-using MareSynchronos.API.Dto.User;
-using MareSynchronos.API.SignalR;
-using MareSynchronos.MareConfiguration;
-using MareSynchronos.MareConfiguration.Models;
-using MareSynchronos.PlayerData.Pairs;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Services.ServerConfiguration;
-using MareSynchronos.WebAPI.SignalR;
-using MareSynchronos.WebAPI.SignalR.Utils;
+using ShoninSync.API.Data;
+using ShoninSync.API.Data.Extensions;
+using ShoninSync.API.Dto;
+using ShoninSync.API.Dto.User;
+using ShoninSync.API.SignalR;
+using ShoninSync.MareConfiguration;
+using ShoninSync.MareConfiguration.Models;
+using ShoninSync.PlayerData.Pairs;
+using ShoninSync.Services;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Services.ServerConfiguration;
+using ShoninSync.WebAPI.SignalR;
+using ShoninSync.WebAPI.SignalR.Utils;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 
-namespace MareSynchronos.WebAPI;
+namespace ShoninSync.WebAPI;
 
 #pragma warning disable MA0040
 public sealed partial class ApiController : DisposableMediatorSubscriberBase, IMareHubClient
 {
     public const string MainServer = "Lunae Crescere Incipientis (Official Central Server)";
-    public const string MainServiceUri = "wss://maresynchronos.com";
+    public const string MainServiceUri = "wss://ShoninSync.com";
 
     private readonly DalamudUtilService _dalamudUtil;
     private readonly HubFactory _hubFactory;

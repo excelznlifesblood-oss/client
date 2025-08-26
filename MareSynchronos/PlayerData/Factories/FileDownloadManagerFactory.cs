@@ -1,9 +1,9 @@
-﻿using MareSynchronos.FileCache;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.WebAPI.Files;
+﻿using ShoninSync.FileCache;
+using ShoninSync.Services.Mediator;
+using ShoninSync.WebAPI.Files;
 using Microsoft.Extensions.Logging;
 
-namespace MareSynchronos.PlayerData.Factories;
+namespace ShoninSync.PlayerData.Factories;
 
 public class FileDownloadManagerFactory
 {

@@ -1,16 +1,16 @@
 ﻿using FFXIVClientStructs.FFXIV.Client.Game.Character;
-using MareSynchronos.API.Data.Enum;
-using MareSynchronos.FileCache;
-using MareSynchronos.Interop.Ipc;
-using MareSynchronos.MareConfiguration.Models;
-using MareSynchronos.PlayerData.Data;
-using MareSynchronos.PlayerData.Handlers;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Mediator;
+using ShoninSync.API.Data.Enum;
+using ShoninSync.FileCache;
+using ShoninSync.Interop.Ipc;
+using ShoninSync.MareConfiguration.Models;
+using ShoninSync.PlayerData.Data;
+using ShoninSync.PlayerData.Handlers;
+using ShoninSync.Services;
+using ShoninSync.Services.Mediator;
 using Microsoft.Extensions.Logging;
-using CharacterData = MareSynchronos.PlayerData.Data.CharacterData;
+using CharacterData = ShoninSync.PlayerData.Data.CharacterData;
 
-namespace MareSynchronos.PlayerData.Factories;
+namespace ShoninSync.PlayerData.Factories;
 
 public class PlayerDataFactory
 {

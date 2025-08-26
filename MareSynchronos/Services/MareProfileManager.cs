@@ -1,12 +1,12 @@
-﻿using MareSynchronos.API.Data;
-using MareSynchronos.API.Data.Comparer;
-using MareSynchronos.MareConfiguration;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.WebAPI;
+﻿using ShoninSync.API.Data;
+using ShoninSync.API.Data.Comparer;
+using ShoninSync.MareConfiguration;
+using ShoninSync.Services.Mediator;
+using ShoninSync.WebAPI;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 
-namespace MareSynchronos.Services;
+namespace ShoninSync.Services;
 
 public class MareProfileManager : MediatorSubscriberBase
 {

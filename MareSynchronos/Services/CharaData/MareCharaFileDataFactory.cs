@@ -1,8 +1,8 @@
-﻿using MareSynchronos.API.Data;
-using MareSynchronos.FileCache;
-using MareSynchronos.Services.CharaData.Models;
+﻿using ShoninSync.API.Data;
+using ShoninSync.FileCache;
+using ShoninSync.Services.CharaData.Models;
 
-namespace MareSynchronos.Services.CharaData;
+namespace ShoninSync.Services.CharaData;
 
 public sealed class MareCharaFileDataFactory
 {

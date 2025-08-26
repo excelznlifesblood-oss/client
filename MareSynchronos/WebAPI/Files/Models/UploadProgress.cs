@@ -1,3 +1,3 @@
-﻿namespace MareSynchronos.WebAPI.Files.Models;
+﻿namespace ShoninSync.WebAPI.Files.Models;
 
 public record UploadProgress(long Uploaded, long Size);

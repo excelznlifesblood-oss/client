@@ -1,16 +1,16 @@
-﻿using MareSynchronos.API.Dto.Group;
-using MareSynchronos.MareConfiguration;
-using MareSynchronos.PlayerData.Pairs;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Services.ServerConfiguration;
-using MareSynchronos.UI.Components;
-using MareSynchronos.UI.Handlers;
-using MareSynchronos.WebAPI;
+﻿using ShoninSync.API.Dto.Group;
+using ShoninSync.MareConfiguration;
+using ShoninSync.PlayerData.Pairs;
+using ShoninSync.Services;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Services.ServerConfiguration;
+using ShoninSync.UI.Components;
+using ShoninSync.UI.Handlers;
+using ShoninSync.WebAPI;
 using Microsoft.Extensions.Logging;
 using System.Collections.Immutable;
 
-namespace MareSynchronos.UI;
+namespace ShoninSync.UI;
 
 public class DrawEntityFactory
 {

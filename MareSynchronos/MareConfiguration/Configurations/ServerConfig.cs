@@ -1,7 +1,7 @@
-﻿using MareSynchronos.MareConfiguration.Models;
-using MareSynchronos.WebAPI;
+﻿using ShoninSync.MareConfiguration.Models;
+using ShoninSync.WebAPI;
 
-namespace MareSynchronos.MareConfiguration.Configurations;
+namespace ShoninSync.MareConfiguration.Configurations;
 
 [Serializable]
 public class ServerConfig : IMareConfiguration

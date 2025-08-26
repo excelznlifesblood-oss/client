@@ -1,17 +1,17 @@
 ﻿using Dalamud.Game.Gui.ContextMenu;
 using Dalamud.Game.Text.SeStringHandling;
-using MareSynchronos.API.Data;
-using MareSynchronos.API.Data.Enum;
-using MareSynchronos.API.Data.Extensions;
-using MareSynchronos.API.Dto.User;
-using MareSynchronos.PlayerData.Factories;
-using MareSynchronos.PlayerData.Handlers;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Services.ServerConfiguration;
-using MareSynchronos.Utils;
+using ShoninSync.API.Data;
+using ShoninSync.API.Data.Enum;
+using ShoninSync.API.Data.Extensions;
+using ShoninSync.API.Dto.User;
+using ShoninSync.PlayerData.Factories;
+using ShoninSync.PlayerData.Handlers;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Services.ServerConfiguration;
+using ShoninSync.Utils;
 using Microsoft.Extensions.Logging;
 
-namespace MareSynchronos.PlayerData.Pairs;
+namespace ShoninSync.PlayerData.Pairs;
 
 public class Pair
 {

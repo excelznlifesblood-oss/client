@@ -1,8 +1,8 @@
-﻿using MareSynchronos.WebAPI;
+﻿using ShoninSync.WebAPI;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace MareSynchronos.MareConfiguration;
+namespace ShoninSync.MareConfiguration;
 
 public class ConfigurationMigrator(ILogger<ConfigurationMigrator> logger, TransientConfigService transientConfigService,
     ServerConfigService serverConfigService) : IHostedService

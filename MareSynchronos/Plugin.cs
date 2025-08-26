@@ -3,35 +3,35 @@ using Dalamud.Interface.ImGuiFileDialog;
 using Dalamud.Interface.Windowing;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
-using MareSynchronos.FileCache;
-using MareSynchronos.Interop;
-using MareSynchronos.Interop.Ipc;
-using MareSynchronos.MareConfiguration;
-using MareSynchronos.MareConfiguration.Configurations;
-using MareSynchronos.PlayerData.Factories;
-using MareSynchronos.PlayerData.Pairs;
-using MareSynchronos.PlayerData.Services;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Events;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Services.ServerConfiguration;
-using MareSynchronos.UI;
-using MareSynchronos.UI.Components;
-using MareSynchronos.UI.Components.Popup;
-using MareSynchronos.UI.Handlers;
-using MareSynchronos.WebAPI;
-using MareSynchronos.WebAPI.Files;
-using MareSynchronos.WebAPI.SignalR;
+using ShoninSync.FileCache;
+using ShoninSync.Interop;
+using ShoninSync.Interop.Ipc;
+using ShoninSync.MareConfiguration;
+using ShoninSync.MareConfiguration.Configurations;
+using ShoninSync.PlayerData.Factories;
+using ShoninSync.PlayerData.Pairs;
+using ShoninSync.PlayerData.Services;
+using ShoninSync.Services;
+using ShoninSync.Services.Events;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Services.ServerConfiguration;
+using ShoninSync.UI;
+using ShoninSync.UI.Components;
+using ShoninSync.UI.Components.Popup;
+using ShoninSync.UI.Handlers;
+using ShoninSync.WebAPI;
+using ShoninSync.WebAPI.Files;
+using ShoninSync.WebAPI.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NReco.Logging.File;
 using System.Net.Http.Headers;
 using System.Reflection;
-using MareSynchronos.Services.CharaData;
+using ShoninSync.Services.CharaData;
 using Dalamud.Game;
 
-namespace MareSynchronos;
+namespace ShoninSync;
 
 public sealed class Plugin : IDalamudPlugin
 {
@@ -87,9 +87,9 @@ public sealed class Plugin : IDalamudPlugin
         })
         .ConfigureServices(collection =>
         {
-            collection.AddSingleton(new WindowSystem("MareSynchronos"));
+            collection.AddSingleton(new WindowSystem("ShoninSync"));
             collection.AddSingleton<FileDialogManager>();
-            collection.AddSingleton(new Dalamud.Localization("MareSynchronos.Localization.", "", useEmbedded: true));
+            collection.AddSingleton(new Dalamud.Localization("ShoninSync.Localization.", "", useEmbedded: true));
 
             // add mare related singletons
             collection.AddSingleton<MareMediator>();
@@ -168,7 +168,7 @@ public sealed class Plugin : IDalamudPlugin
             {
                 var httpClient = new HttpClient();
                 var ver = Assembly.GetExecutingAssembly().GetName().Version;
-                httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("MareSynchronos", ver!.Major + "." + ver!.Minor + "." + ver!.Build));
+                httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("ShoninSync", ver!.Major + "." + ver!.Minor + "." + ver!.Build));
                 return httpClient;
             });
             collection.AddSingleton((s) => new MareConfigService(pluginInterface.ConfigDirectory.FullName));

@@ -1,9 +1,9 @@
 ﻿using Dalamud.Bindings.ImGui;
 using Dalamud.Interface.Utility;
-using MareSynchronos.Services.ServerConfiguration;
+using ShoninSync.Services.ServerConfiguration;
 using System.Numerics;
 
-namespace MareSynchronos.UI.Components.Popup;
+namespace ShoninSync.UI.Components.Popup;
 
 public class CensusPopupHandler : IPopupHandler
 {

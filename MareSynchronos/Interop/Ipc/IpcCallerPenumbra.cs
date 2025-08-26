@@ -1,15 +1,15 @@
 ﻿using Dalamud.Plugin;
-using MareSynchronos.MareConfiguration.Models;
-using MareSynchronos.PlayerData.Handlers;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Mediator;
+using ShoninSync.MareConfiguration.Models;
+using ShoninSync.PlayerData.Handlers;
+using ShoninSync.Services;
+using ShoninSync.Services.Mediator;
 using Microsoft.Extensions.Logging;
 using Penumbra.Api.Enums;
 using Penumbra.Api.Helpers;
 using Penumbra.Api.IpcSubscribers;
 using System.Collections.Concurrent;
 
-namespace MareSynchronos.Interop.Ipc;
+namespace ShoninSync.Interop.Ipc;
 
 public sealed class IpcCallerPenumbra : DisposableMediatorSubscriberBase, IIpcCaller
 {

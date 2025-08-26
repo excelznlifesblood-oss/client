@@ -1,6 +1,6 @@
-﻿using MareSynchronos.API.Data;
+﻿using ShoninSync.API.Data;
 
-namespace MareSynchronos.PlayerData.Data;
+namespace ShoninSync.PlayerData.Data;
 
 public class FileReplacementDataComparer : IEqualityComparer<FileReplacementData>
 {

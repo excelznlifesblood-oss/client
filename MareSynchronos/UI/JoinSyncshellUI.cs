@@ -2,17 +2,17 @@
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
-using MareSynchronos.API.Data.Enum;
-using MareSynchronos.API.Data.Extensions;
-using MareSynchronos.API.Dto;
-using MareSynchronos.API.Dto.Group;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Utils;
-using MareSynchronos.WebAPI;
+using ShoninSync.API.Data.Enum;
+using ShoninSync.API.Data.Extensions;
+using ShoninSync.API.Dto;
+using ShoninSync.API.Dto.Group;
+using ShoninSync.Services;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Utils;
+using ShoninSync.WebAPI;
 using Microsoft.Extensions.Logging;
 
-namespace MareSynchronos.UI;
+namespace ShoninSync.UI;
 
 internal class JoinSyncshellUI : WindowMediatorSubscriberBase
 {
@@ -26,7 +26,7 @@ internal class JoinSyncshellUI : WindowMediatorSubscriberBase
 
     public JoinSyncshellUI(ILogger<JoinSyncshellUI> logger, MareMediator mediator,
         UiSharedService uiSharedService, ApiController apiController, PerformanceCollectorService performanceCollectorService) 
-        : base(logger, mediator, "Join existing Syncshell###MareSynchronosJoinSyncshell", performanceCollectorService)
+        : base(logger, mediator, "Join existing Syncshell###ShoninSyncJoinSyncshell", performanceCollectorService)
     {
         _uiSharedService = uiSharedService;
         _apiController = apiController;

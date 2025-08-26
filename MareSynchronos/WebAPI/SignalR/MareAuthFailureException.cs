@@ -1,4 +1,4 @@
-﻿namespace MareSynchronos.WebAPI.SignalR;
+﻿namespace ShoninSync.WebAPI.SignalR;
 
 public class MareAuthFailureException : Exception
 {

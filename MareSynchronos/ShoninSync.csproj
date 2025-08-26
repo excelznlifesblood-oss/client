@@ -6,7 +6,8 @@
     <Version>1.11.0</Version>
     <Description></Description>
     <Copyright></Copyright>
-    <PackageProjectUrl>https://github.com/MareSynchronos/client</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/ShoninSync/client</PackageProjectUrl>
+    <RootNamespace>ShoninSync</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -55,7 +56,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MareAPI\MareSynchronosAPI\MareSynchronos.API.csproj" />
+    <ProjectReference Include="..\MareAPI\MareSynchronosAPI\ShoninSync.API.csproj" />
   </ItemGroup>
 
   <ItemGroup>

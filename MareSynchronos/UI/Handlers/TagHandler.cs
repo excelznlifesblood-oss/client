@@ -1,6 +1,6 @@
-﻿using MareSynchronos.Services.ServerConfiguration;
+﻿using ShoninSync.Services.ServerConfiguration;
 
-namespace MareSynchronos.UI.Handlers;
+namespace ShoninSync.UI.Handlers;
 
 public class TagHandler
 {

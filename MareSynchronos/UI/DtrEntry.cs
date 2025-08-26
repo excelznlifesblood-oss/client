@@ -2,16 +2,16 @@
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Plugin.Services;
-using MareSynchronos.MareConfiguration;
-using MareSynchronos.MareConfiguration.Configurations;
-using MareSynchronos.PlayerData.Pairs;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.WebAPI;
+using ShoninSync.MareConfiguration;
+using ShoninSync.MareConfiguration.Configurations;
+using ShoninSync.PlayerData.Pairs;
+using ShoninSync.Services.Mediator;
+using ShoninSync.WebAPI;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Runtime.InteropServices;
 
-namespace MareSynchronos.UI;
+namespace ShoninSync.UI;
 
 public sealed class DtrEntry : IDisposable, IHostedService
 {

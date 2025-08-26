@@ -1,4 +1,4 @@
-﻿namespace MareSynchronos.WebAPI.Files
+﻿namespace ShoninSync.WebAPI.Files
 {
     /// <summary>
     ///     Class for streaming data with throttling support.

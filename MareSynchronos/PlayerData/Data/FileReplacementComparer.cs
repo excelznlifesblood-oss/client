@@ -1,4 +1,4 @@
-﻿namespace MareSynchronos.PlayerData.Data;
+﻿namespace ShoninSync.PlayerData.Data;
 
 public class FileReplacementComparer : IEqualityComparer<FileReplacement>
 {

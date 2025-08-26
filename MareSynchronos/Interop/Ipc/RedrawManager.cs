@@ -1,12 +1,12 @@
 ﻿using Dalamud.Game.ClientState.Objects.Types;
-using MareSynchronos.PlayerData.Handlers;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Utils;
+using ShoninSync.PlayerData.Handlers;
+using ShoninSync.Services;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Utils;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 
-namespace MareSynchronos.Interop.Ipc;
+namespace ShoninSync.Interop.Ipc;
 
 public class RedrawManager
 {

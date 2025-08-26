@@ -1,12 +1,12 @@
 ﻿using Dalamud.Game.ClientState.Objects.Types;
-using MareSynchronos.API.Data;
-using MareSynchronos.API.Data.Enum;
-using MareSynchronos.PlayerData.Handlers;
-using MareSynchronos.PlayerData.Pairs;
+using ShoninSync.API.Data;
+using ShoninSync.API.Data.Enum;
+using ShoninSync.PlayerData.Handlers;
+using ShoninSync.PlayerData.Pairs;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
-namespace MareSynchronos.Utils;
+namespace ShoninSync.Utils;
 
 public static class VariousExtensions
 {

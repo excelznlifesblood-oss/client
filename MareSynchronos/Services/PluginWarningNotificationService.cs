@@ -1,12 +1,12 @@
-﻿using MareSynchronos.API.Data;
-using MareSynchronos.API.Data.Comparer;
-using MareSynchronos.Interop.Ipc;
-using MareSynchronos.MareConfiguration;
-using MareSynchronos.MareConfiguration.Models;
-using MareSynchronos.Services.Mediator;
+﻿using ShoninSync.API.Data;
+using ShoninSync.API.Data.Comparer;
+using ShoninSync.Interop.Ipc;
+using ShoninSync.MareConfiguration;
+using ShoninSync.MareConfiguration.Models;
+using ShoninSync.Services.Mediator;
 using System.Collections.Concurrent;
 
-namespace MareSynchronos.PlayerData.Pairs;
+namespace ShoninSync.PlayerData.Pairs;
 
 public class PluginWarningNotificationService
 {

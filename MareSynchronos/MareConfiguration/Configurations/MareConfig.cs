@@ -1,8 +1,8 @@
-﻿using MareSynchronos.MareConfiguration.Models;
-using MareSynchronos.UI;
+﻿using ShoninSync.MareConfiguration.Models;
+using ShoninSync.UI;
 using Microsoft.Extensions.Logging;
 
-namespace MareSynchronos.MareConfiguration.Configurations;
+namespace ShoninSync.MareConfiguration.Configurations;
 
 [Serializable]
 public class MareConfig : IMareConfiguration

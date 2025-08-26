@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace MareSynchronos.Utils;
+namespace ShoninSync.Utils;
 
 public static class Crypto
 {

@@ -1,14 +1,14 @@
 ﻿using FFXIVClientStructs.FFXIV.Client.Graphics.Scene;
-using MareSynchronos.API.Data;
-using MareSynchronos.Interop;
-using MareSynchronos.MareConfiguration;
-using MareSynchronos.Services.CharaData.Models;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Services.ServerConfiguration;
+using ShoninSync.API.Data;
+using ShoninSync.Interop;
+using ShoninSync.MareConfiguration;
+using ShoninSync.Services.CharaData.Models;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Services.ServerConfiguration;
 using Microsoft.Extensions.Logging;
 using System.Numerics;
 
-namespace MareSynchronos.Services;
+namespace ShoninSync.Services;
 
 public sealed class CharaDataNearbyManager : DisposableMediatorSubscriberBase
 {

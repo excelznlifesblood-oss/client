@@ -1,14 +1,14 @@
-using MareSynchronos.API.Data;
-using MareSynchronos.FileCache;
-using MareSynchronos.MareConfiguration;
-using MareSynchronos.PlayerData.Handlers;
-using MareSynchronos.Services.Events;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.UI;
-using MareSynchronos.WebAPI.Files.Models;
+using ShoninSync.API.Data;
+using ShoninSync.FileCache;
+using ShoninSync.MareConfiguration;
+using ShoninSync.PlayerData.Handlers;
+using ShoninSync.Services.Events;
+using ShoninSync.Services.Mediator;
+using ShoninSync.UI;
+using ShoninSync.WebAPI.Files.Models;
 using Microsoft.Extensions.Logging;
 
-namespace MareSynchronos.Services;
+namespace ShoninSync.Services;
 
 public class PlayerPerformanceService
 {

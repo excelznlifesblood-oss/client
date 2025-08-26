@@ -1,13 +1,13 @@
 ﻿using Dalamud.Bindings.ImGui;
 using Dalamud.Interface;
 using Dalamud.Interface.Utility.Raii;
-using MareSynchronos.API.Dto.Group;
-using MareSynchronos.MareConfiguration;
-using MareSynchronos.PlayerData.Pairs;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Services.ServerConfiguration;
+using ShoninSync.API.Dto.Group;
+using ShoninSync.MareConfiguration;
+using ShoninSync.PlayerData.Pairs;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Services.ServerConfiguration;
 
-namespace MareSynchronos.UI.Handlers;
+namespace ShoninSync.UI.Handlers;
 
 public class IdDisplayHandler
 {

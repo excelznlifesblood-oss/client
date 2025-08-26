@@ -1,4 +1,4 @@
-﻿namespace MareSynchronos.PlayerData.Pairs;
+﻿namespace ShoninSync.PlayerData.Pairs;
 
 public record OptionalPluginWarning
 {

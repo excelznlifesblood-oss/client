@@ -1,6 +1,6 @@
 ﻿#nullable disable
 
-namespace MareSynchronos.FileCache;
+namespace ShoninSync.FileCache;
 
 public class FileCacheEntity
 {

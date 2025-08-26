@@ -1,13 +1,13 @@
-﻿using MareSynchronos.API.Dto.Group;
-using MareSynchronos.PlayerData.Pairs;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.Services.ServerConfiguration;
-using MareSynchronos.UI;
-using MareSynchronos.UI.Components.Popup;
-using MareSynchronos.WebAPI;
+﻿using ShoninSync.API.Dto.Group;
+using ShoninSync.PlayerData.Pairs;
+using ShoninSync.Services.Mediator;
+using ShoninSync.Services.ServerConfiguration;
+using ShoninSync.UI;
+using ShoninSync.UI.Components.Popup;
+using ShoninSync.WebAPI;
 using Microsoft.Extensions.Logging;
 
-namespace MareSynchronos.Services;
+namespace ShoninSync.Services;
 
 public class UiFactory
 {

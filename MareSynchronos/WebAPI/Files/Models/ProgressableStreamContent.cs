@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace MareSynchronos.WebAPI.Files.Models;
+namespace ShoninSync.WebAPI.Files.Models;
 
 public class ProgressableStreamContent : StreamContent
 {

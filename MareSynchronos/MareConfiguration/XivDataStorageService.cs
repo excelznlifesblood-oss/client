@@ -1,6 +1,6 @@
-﻿using MareSynchronos.MareConfiguration.Configurations;
+﻿using ShoninSync.MareConfiguration.Configurations;
 
-namespace MareSynchronos.MareConfiguration;
+namespace ShoninSync.MareConfiguration;
 
 public class XivDataStorageService : ConfigurationServiceBase<XivDataStorageConfig>
 {

@@ -3,11 +3,11 @@ using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility.Raii;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface;
-using MareSynchronos.API.Dto.CharaData;
-using MareSynchronos.Services.CharaData.Models;
+using ShoninSync.API.Dto.CharaData;
+using ShoninSync.Services.CharaData.Models;
 using System.Numerics;
 
-namespace MareSynchronos.UI;
+namespace ShoninSync.UI;
 
 internal sealed partial class CharaDataHubUi
 {

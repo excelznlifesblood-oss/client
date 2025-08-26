@@ -2,13 +2,13 @@
 using Dalamud.Plugin;
 using Glamourer.Api.Helpers;
 using Glamourer.Api.IpcSubscribers;
-using MareSynchronos.MareConfiguration.Models;
-using MareSynchronos.PlayerData.Handlers;
-using MareSynchronos.Services;
-using MareSynchronos.Services.Mediator;
+using ShoninSync.MareConfiguration.Models;
+using ShoninSync.PlayerData.Handlers;
+using ShoninSync.Services;
+using ShoninSync.Services.Mediator;
 using Microsoft.Extensions.Logging;
 
-namespace MareSynchronos.Interop.Ipc;
+namespace ShoninSync.Interop.Ipc;
 
 public sealed class IpcCallerGlamourer : DisposableMediatorSubscriberBase, IIpcCaller
 {

@@ -1,6 +1,6 @@
-﻿using MareSynchronos.MareConfiguration.Configurations;
+﻿using ShoninSync.MareConfiguration.Configurations;
 
-namespace MareSynchronos.MareConfiguration;
+namespace ShoninSync.MareConfiguration;
 
 public interface IConfigService<out T> : IDisposable where T : IMareConfiguration
 {

@@ -1,11 +1,11 @@
-﻿using MareSynchronos.MareConfiguration;
+﻿using ShoninSync.MareConfiguration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Reflection;
 using System.Text;
 
-namespace MareSynchronos.Services.Mediator;
+namespace ShoninSync.Services.Mediator;
 
 public sealed class MareMediator : IHostedService
 {

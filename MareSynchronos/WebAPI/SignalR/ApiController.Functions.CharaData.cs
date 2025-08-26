@@ -1,10 +1,10 @@
-﻿using MareSynchronos.API.Data;
-using MareSynchronos.API.Dto.CharaData;
-using MareSynchronos.Services.CharaData.Models;
+﻿using ShoninSync.API.Data;
+using ShoninSync.API.Dto.CharaData;
+using ShoninSync.Services.CharaData.Models;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
 
-namespace MareSynchronos.WebAPI;
+namespace ShoninSync.WebAPI;
 public partial class ApiController
 {
     public async Task<CharaDataFullDto?> CharaDataCreate()

@@ -1,7 +1,7 @@
-﻿using MareSynchronos.API.Dto.CharaData;
+﻿using ShoninSync.API.Dto.CharaData;
 using System.Collections.ObjectModel;
 
-namespace MareSynchronos.Services.CharaData.Models;
+namespace ShoninSync.Services.CharaData.Models;
 
 public sealed record CharaDataFullExtendedDto : CharaDataFullDto
 {

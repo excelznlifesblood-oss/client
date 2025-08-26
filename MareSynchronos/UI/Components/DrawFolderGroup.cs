@@ -3,15 +3,15 @@ using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
-using MareSynchronos.API.Data.Extensions;
-using MareSynchronos.API.Dto.Group;
-using MareSynchronos.PlayerData.Pairs;
-using MareSynchronos.Services.Mediator;
-using MareSynchronos.UI.Handlers;
-using MareSynchronos.WebAPI;
+using ShoninSync.API.Data.Extensions;
+using ShoninSync.API.Dto.Group;
+using ShoninSync.PlayerData.Pairs;
+using ShoninSync.Services.Mediator;
+using ShoninSync.UI.Handlers;
+using ShoninSync.WebAPI;
 using System.Collections.Immutable;
 
-namespace MareSynchronos.UI.Components;
+namespace ShoninSync.UI.Components;
 
 public class DrawFolderGroup : DrawFolderBase
 {

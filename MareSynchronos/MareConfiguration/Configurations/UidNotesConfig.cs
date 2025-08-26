@@ -1,6 +1,6 @@
-﻿using MareSynchronos.MareConfiguration.Models;
+﻿using ShoninSync.MareConfiguration.Models;
 
-namespace MareSynchronos.MareConfiguration.Configurations;
+namespace ShoninSync.MareConfiguration.Configurations;
 
 public class UidNotesConfig : IMareConfiguration
 {

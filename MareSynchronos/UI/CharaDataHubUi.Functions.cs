@@ -1,10 +1,10 @@
 ﻿using Dalamud.Interface.Utility.Raii;
-using MareSynchronos.API.Dto.CharaData;
-using MareSynchronos.MareConfiguration.Models;
-using MareSynchronos.Services.CharaData.Models;
+using ShoninSync.API.Dto.CharaData;
+using ShoninSync.MareConfiguration.Models;
+using ShoninSync.Services.CharaData.Models;
 using System.Text;
 
-namespace MareSynchronos.UI;
+namespace ShoninSync.UI;
 
 internal sealed partial class CharaDataHubUi
 {

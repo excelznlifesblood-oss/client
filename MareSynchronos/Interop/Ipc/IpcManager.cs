@@ -1,7 +1,7 @@
-﻿using MareSynchronos.Services.Mediator;
+﻿using ShoninSync.Services.Mediator;
 using Microsoft.Extensions.Logging;
 
-namespace MareSynchronos.Interop.Ipc;
+namespace ShoninSync.Interop.Ipc;
 
 public sealed partial class IpcManager : DisposableMediatorSubscriberBase
 {
