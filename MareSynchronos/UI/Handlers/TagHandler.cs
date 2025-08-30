@@ -4,12 +4,12 @@ namespace ShoninSync.UI.Handlers;
 
 public class TagHandler
 {
-    public const string CustomAllTag = "Mare_All";
-    public const string CustomOfflineTag = "Mare_Offline";
-    public const string CustomOfflineSyncshellTag = "Mare_OfflineSyncshell";
-    public const string CustomOnlineTag = "Mare_Online";
-    public const string CustomUnpairedTag = "Mare_Unpaired";
-    public const string CustomVisibleTag = "Mare_Visible";
+    public const string CustomAllTag = "Shonin_All";
+    public const string CustomOfflineTag = "Shonin_Offline";
+    public const string CustomOfflineSyncshellTag = "Shonin_OfflineSyncshell";
+    public const string CustomOnlineTag = "Shonin_Online";
+    public const string CustomUnpairedTag = "Shonin_Unpaired";
+    public const string CustomVisibleTag = "Shonin_Visible";
     private readonly ServerConfigurationManager _serverConfigurationManager;
 
     public TagHandler(ServerConfigurationManager serverConfigurationManager)

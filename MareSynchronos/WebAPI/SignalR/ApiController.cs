@@ -21,8 +21,8 @@ namespace ShoninSync.WebAPI;
 #pragma warning disable MA0040
 public sealed partial class ApiController : DisposableMediatorSubscriberBase, IMareHubClient
 {
-    public const string MainServer = "Lunae Crescere Incipientis (Official Central Server)";
-    public const string MainServiceUri = "wss://ShoninSync.com";
+    public const string MainServer = "Shonin Sync";
+    public const string MainServiceUri = "wss://sync.nm-shonin.com";
 
     private readonly DalamudUtilService _dalamudUtil;
     private readonly HubFactory _hubFactory;
@@ -240,7 +240,7 @@ public sealed partial class ApiController : DisposableMediatorSubscriberBase, IM
                         Mediator.Publish(new NotificationMessage("Client incompatible",
                             $"Your client is outdated ({currentClientVer.Major}.{currentClientVer.Minor}.{currentClientVer.Build}), current is: " +
                             $"{_connectionDto.CurrentClientVersion.Major}.{_connectionDto.CurrentClientVersion.Minor}.{_connectionDto.CurrentClientVersion.Build}. " +
-                            $"This client version is incompatible and will not be able to connect. Please update your Mare Synchronos client.",
+                            $"This client version is incompatible and will not be able to connect. Please update your Shonin Sync client.",
                             NotificationType.Error));
                     }
                     await StopConnectionAsync(ServerState.VersionMisMatch).ConfigureAwait(false);
@@ -252,7 +252,7 @@ public sealed partial class ApiController : DisposableMediatorSubscriberBase, IM
                     Mediator.Publish(new NotificationMessage("Client outdated",
                         $"Your client is outdated ({currentClientVer.Major}.{currentClientVer.Minor}.{currentClientVer.Build}), current is: " +
                         $"{_connectionDto.CurrentClientVersion.Major}.{_connectionDto.CurrentClientVersion.Minor}.{_connectionDto.CurrentClientVersion.Build}. " +
-                        $"Please keep your Mare Synchronos client up-to-date.",
+                        $"Please keep your Shonin Sync client up-to-date.",
                         NotificationType.Warning));
                 }
 

@@ -33,7 +33,7 @@ public class EditProfileUi : WindowMediatorSubscriberBase
     public EditProfileUi(ILogger<EditProfileUi> logger, MareMediator mediator,
         ApiController apiController, UiSharedService uiSharedService, FileDialogManager fileDialogManager,
         MareProfileManager mareProfileManager, PerformanceCollectorService performanceCollectorService)
-        : base(logger, mediator, "Mare Synchronos Edit Profile###ShoninSyncEditProfileUI", performanceCollectorService)
+        : base(logger, mediator, "Shonin Sync Edit Profile###ShoninSyncEditProfileUI", performanceCollectorService)
     {
         IsOpen = false;
         this.SizeConstraints = new()

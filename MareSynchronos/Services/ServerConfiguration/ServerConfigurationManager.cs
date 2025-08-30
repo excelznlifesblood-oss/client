@@ -531,8 +531,11 @@ public class ServerConfigurationManager
         {
             var baseUri = serverUri.Replace("wss://", "https://").Replace("ws://", "http://");
             var oauthCheckUri = MareAuth.GetDiscordOAuthEndpointFullPath(new Uri(baseUri));
-            var response = await _httpClient.GetFromJsonAsync<Uri?>(oauthCheckUri).ConfigureAwait(false);
-            return response;
+            var response = await _httpClient.GetAsync(oauthCheckUri).ConfigureAwait(false);
+            var body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            return JsonSerializer.Deserialize<Uri?>(body);
+            //var response = await _httpClient.GetFromJsonAsync<Uri?>(oauthCheckUri).ConfigureAwait(false);
+            //return response;
         }
         catch (Exception ex)
         {

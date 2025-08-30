@@ -259,7 +259,7 @@ public class SyncshellAdminUI : WindowMediatorSubscriberBase
                         _pruneTestTask = _apiController.GroupPrune(new(GroupFullInfo.Group), _pruneDays, execute: false);
                         _pruneTask = null;
                     }
-                    UiSharedService.AttachToolTip($"This will start the prune process for this Syncshell of inactive Mare users that have not logged in in the past {_pruneDays} days."
+                    UiSharedService.AttachToolTip($"This will start the prune process for this Syncshell of inactive Shonin Sync users that have not logged in in the past {_pruneDays} days."
                         + Environment.NewLine + "You will be able to review the amount of inactive users before executing the prune."
                         + UiSharedService.TooltipSeparator + "Note: this check excludes pinned users and moderators of this Syncshell.");
                     ImGui.SameLine();

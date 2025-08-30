@@ -77,7 +77,7 @@ public class SettingsUi : WindowMediatorSubscriberBase
         FileCacheManager fileCacheManager,
         FileCompactor fileCompactor, ApiController apiController,
         IpcManager ipcManager, CacheMonitor cacheMonitor,
-        DalamudUtilService dalamudUtilService, HttpClient httpClient) : base(logger, mediator, "Mare Synchronos Settings", performanceCollector)
+        DalamudUtilService dalamudUtilService, HttpClient httpClient) : base(logger, mediator, "Shonin Sync Settings", performanceCollector)
     {
         _configService = configService;
         _pairManager = pairManager;
@@ -178,7 +178,7 @@ public class SettingsUi : WindowMediatorSubscriberBase
         _lastTab = "BlockedTransfers";
         UiSharedService.ColorTextWrapped("Files that you attempted to upload or download that were forbidden to be transferred by their creators will appear here. " +
                              "If you see file paths from your drive here, then those files were not allowed to be uploaded. If you see hashes, those files were not allowed to be downloaded. " +
-                             "Ask your paired friend to send you the mod in question through other means, acquire the mod yourself or pester the mod creator to allow it to be sent over Mare.",
+                             "Ask your paired friend to send you the mod in question through other means, acquire the mod yourself or pester the mod creator to allow it to be sent over Shonin Sync.",
             ImGuiColors.DalamudGrey);
 
         if (ImGui.BeginTable("TransfersTable", 2, ImGuiTableFlags.SizingStretchProp))
@@ -634,7 +634,7 @@ public class SettingsUi : WindowMediatorSubscriberBase
         _uiShared.IconText(FontAwesomeIcon.UserCog);
         ImGui.SameLine();
         UiSharedService.TextWrapped(") -> \"Character Data Hub\".");
-        if (_uiShared.IconTextButton(FontAwesomeIcon.Running, "Open Mare Character Data Hub"))
+        if (_uiShared.IconTextButton(FontAwesomeIcon.Running, "Open Shoning Sync Character Data Hub"))
         {
             Mediator.Publish(new UiToggleMessage(typeof(CharaDataHubUi)));
         }
@@ -644,7 +644,7 @@ public class SettingsUi : WindowMediatorSubscriberBase
 
         _uiShared.BigText("Storage");
 
-        UiSharedService.TextWrapped("Mare stores downloaded files from paired people permanently. This is to improve loading performance and requiring less downloads. " +
+        UiSharedService.TextWrapped("Shonin Sync stores downloaded files from paired people permanently. This is to improve loading performance and requiring less downloads. " +
             "The storage governs itself by clearing data beyond the set storage size. Please set the storage size accordingly. It is not necessary to manually clear the storage.");
 
         _uiShared.DrawFileScanState();
@@ -661,7 +661,7 @@ public class SettingsUi : WindowMediatorSubscriberBase
         }
 
         ImGui.AlignTextToFramePadding();
-        ImGui.TextUnformatted("Monitoring Mare Storage Folder: " + (_cacheMonitor.MareWatcher?.Path ?? "Not monitoring"));
+        ImGui.TextUnformatted("Monitoring Shonin Sync Storage Folder: " + (_cacheMonitor.MareWatcher?.Path ?? "Not monitoring"));
         if (string.IsNullOrEmpty(_cacheMonitor.MareWatcher?.Path))
         {
             ImGui.SameLine();
@@ -679,7 +679,7 @@ public class SettingsUi : WindowMediatorSubscriberBase
                 _cacheMonitor.StartPenumbraWatcher(_ipcManager.Penumbra.ModDirectory);
                 _cacheMonitor.InvokeScan();
             }
-            UiSharedService.AttachToolTip("Attempts to resume monitoring for both Penumbra and Mare Storage. "
+            UiSharedService.AttachToolTip("Attempts to resume monitoring for both Penumbra and Shonin Sync Storage. "
                 + "Resuming the monitoring will also force a full scan to run." + Environment.NewLine
                 + "If the button remains present after clicking it, consult /xllog for errors");
         }
@@ -692,8 +692,8 @@ public class SettingsUi : WindowMediatorSubscriberBase
                     _cacheMonitor.StopMonitoring();
                 }
             }
-            UiSharedService.AttachToolTip("Stops the monitoring for both Penumbra and Mare Storage. "
-                + "Do not stop the monitoring, unless you plan to move the Penumbra and Mare Storage folders, to ensure correct functionality of Mare." + Environment.NewLine
+            UiSharedService.AttachToolTip("Stops the monitoring for both Penumbra and Shonin Sync Storage. "
+                + "Do not stop the monitoring, unless you plan to move the Penumbra and Shonin Sync Storage folders, to ensure correct functionality of Shonin Sync." + Environment.NewLine
                 + "If you stop the monitoring to move folders around, resume it after you are finished moving the files."
                 + UiSharedService.TooltipSeparator + "Hold CTRL to enable this button");
         }
@@ -1032,7 +1032,7 @@ public class SettingsUi : WindowMediatorSubscriberBase
             _configService.Save();
         }
 
-        if (ImGui.Checkbox("Show Mare Profiles on Hover", ref showProfiles))
+        if (ImGui.Checkbox("Show Shonin Sync Profiles on Hover", ref showProfiles))
         {
             Mediator.Publish(new ClearProfileDataMessage());
             _configService.Current.ProfilesShow = showProfiles;
@@ -1409,7 +1409,7 @@ public class SettingsUi : WindowMediatorSubscriberBase
             {
                 if (selectedServer.SecretKeys.Any() || useOauth)
                 {
-                    UiSharedService.ColorTextWrapped("Characters listed here will automatically connect to the selected Mare service with the settings as provided below." +
+                    UiSharedService.ColorTextWrapped("Characters listed here will automatically connect to the selected Shonin Sync service with the settings as provided below." +
                         " Make sure to enter the character names correctly or use the 'Add current character' button at the bottom.", ImGuiColors.DalamudYellow);
                     int i = 0;
                     _uiShared.DrawUpdateOAuthUIDsButton(selectedServer);
@@ -1940,7 +1940,7 @@ public class SettingsUi : WindowMediatorSubscriberBase
         ImGui.AlignTextToFramePadding();
         ImGui.TextUnformatted("Community and Support:");
         ImGui.SameLine();
-        if (ImGui.Button("Mare Synchronos Discord"))
+        if (ImGui.Button("Shonin Sync Discord"))
         {
             Util.OpenLink("https://discord.gg/mpNdkrTRjW");
         }

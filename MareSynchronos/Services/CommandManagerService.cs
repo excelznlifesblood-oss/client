@@ -13,7 +13,7 @@ namespace ShoninSync.Services;
 
 public sealed class CommandManagerService : IDisposable
 {
-    private const string _commandName = "/mare";
+    private const string _commandName = "/shoninsync";
 
     private readonly ApiController _apiController;
     private readonly ICommandManager _commandManager;
@@ -36,13 +36,13 @@ public sealed class CommandManagerService : IDisposable
         _mareConfigService = mareConfigService;
         _commandManager.AddHandler(_commandName, new CommandInfo(OnCommand)
         {
-            HelpMessage = "Opens the Mare Synchronos UI" + Environment.NewLine + Environment.NewLine +
+            HelpMessage = "Opens the Shonin Sync UI" + Environment.NewLine + Environment.NewLine +
                 "Additionally possible commands:" + Environment.NewLine +
-                "\t /mare toggle - Disconnects from Mare, if connected. Connects to Mare, if disconnected" + Environment.NewLine +
-                "\t /mare toggle on|off - Connects or disconnects to Mare respectively" + Environment.NewLine +
-                "\t /mare gpose - Opens the Mare Character Data Hub window" + Environment.NewLine +
-                "\t /mare analyze - Opens the Mare Character Data Analysis window" + Environment.NewLine +
-                "\t /mare settings - Opens the Mare Settings window"
+                "\t /shoninsync toggle - Disconnects from Shonin Sync, if connected. Connects to Shonin Sync, if disconnected" + Environment.NewLine +
+                "\t /shoninsync toggle on|off - Connects or disconnects to Shonin Sync respectively" + Environment.NewLine +
+                "\t /shoninsync gpose - Opens the Shonin Sync Character Data Hub window" + Environment.NewLine +
+                "\t /shoninsync analyze - Opens the Shonin Sync Character Data Analysis window" + Environment.NewLine +
+                "\t /shoninsync settings - Opens the Shonin Sync Settings window"
         });
     }
 
@@ -72,7 +72,7 @@ public sealed class CommandManagerService : IDisposable
         {
             if (_apiController.ServerState == WebAPI.SignalR.Utils.ServerState.Disconnecting)
             {
-                _mediator.Publish(new NotificationMessage("Mare disconnecting", "Cannot use /toggle while Mare Synchronos is still disconnecting",
+                _mediator.Publish(new NotificationMessage("Shonin Sync disconnecting", "Cannot use /toggle while Shonin Sync is still disconnecting",
                     NotificationType.Error));
             }
 
