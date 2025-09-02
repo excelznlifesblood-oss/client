@@ -57,42 +57,41 @@ stages:
     - script: dotnet restore "$(PLUGIN_PROJECT)"
       displayName: 'Restore'
 
-    # >>> Install Dalamud into the exact dev path the build expects
+    # >>> Install Dalamud to the expected dev path
     - powershell: |
-        $appData = [Environment]::GetFolderPath('ApplicationData')  # e.g., C:\Users\VssAdministrator\AppData\Roaming
+        $ErrorActionPreference = 'Stop'
+
+        $appData = [Environment]::GetFolderPath('ApplicationData')  # C:\Users\VssAdministrator\AppData\Roaming
         $devDir  = Join-Path $appData 'XIVLauncher\addon\Hooks\dev'
         New-Item -ItemType Directory -Force -Path $devDir | Out-Null
 
-        $headers = @{ 'User-Agent' = 'azdo-agent' }
-        $relApi  = 'https://api.github.com/repos/goatcorp/Dalamud/releases/latest'
-        Write-Host "Querying $relApi ..."
-        $rel = Invoke-RestMethod -Uri $relApi -Headers $headers
+        # Prefer release; fall back to staging if needed
+        $releaseUrl = 'https://goatcorp.github.io/dalamud-distrib/latest.zip'
+        $stgUrl     = 'https://goatcorp.github.io/dalamud-distrib/stg/latest.zip'
 
-        # pick the first .zip asset
-        $asset = $rel.assets | Where-Object { $_.name -like '*.zip' } | Select-Object -First 1
-        if (-not $asset) { throw "No .zip asset found in latest Dalamud release." }
+        $zipPath = Join-Path $env:TEMP 'dalamud_latest.zip'
 
-        $zipPath = Join-Path $env:TEMP $asset.name
-        Write-Host "Downloading $($asset.browser_download_url) to $zipPath ..."
-        Invoke-WebRequest -Uri $asset.browser_download_url -OutFile $zipPath
+        function Get-And-Extract($url) {
+          Write-Host "Downloading Dalamud from $url ..."
+          Invoke-WebRequest -Uri $url -OutFile $zipPath
+          Write-Host "Extracting to $devDir ..."
+          Expand-Archive -Path $zipPath -DestinationPath $devDir -Force
+          Remove-Item $zipPath -Force -ErrorAction SilentlyContinue
+        }
 
-        Write-Host "Extracting to $devDir ..."
-        Expand-Archive -Path $zipPath -DestinationPath $devDir -Force
-        Remove-Item $zipPath -Force
+        try {
+          Get-And-Extract $releaseUrl
+        } catch {
+          Write-Warning "Release channel download failed: $($_.Exception.Message) — trying staging channel..."
+          Get-And-Extract $stgUrl
+        }
 
         # sanity check
         $dll = Get-ChildItem -Path $devDir -Recurse -Filter 'Dalamud.dll' -ErrorAction SilentlyContinue | Select-Object -First 1
         if (-not $dll) { throw "Dalamud.dll not found after extraction to $devDir" }
         Write-Host "Dalamud installed to $devDir (found $($dll.FullName))"
-      displayName: 'Install latest Dalamud to %APPDATA%\XIVLauncher\addon\Hooks\dev'
+      displayName: 'Install Dalamud to %APPDATA%\XIVLauncher\addon\Hooks\dev'
 
-    - script: >
-        dotnet build "$(PLUGIN_PROJECT)"
-        --configuration $(BUILD_CONFIGURATION)
-        /p:Platform=$(BUILD_PLATFORM)
-        /p:ContinuousIntegrationBuild=true
-        --no-restore
-      displayName: 'Build (Release x64)'
 
     # Collect ZIP + icon into a single artifact folder
     - powershell: |
