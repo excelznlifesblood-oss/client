@@ -117,6 +117,15 @@
         "resolved": "1.0.5",
         "contentHash": "+9YRQxwkzW6Ys/hx8vHvTwYV76QMjbf7Puq5SibxVLNzkPLyKLp7qZCKS1SC4yXPJlPB4g80IqxrxCm0yacMFw=="
       },
+      "ShoninSync.API": {
+        "type": "Direct",
+        "requested": "[1.0.0, )",
+        "resolved": "1.0.0",
+        "contentHash": "dn59G3E+zFidbeiTuhDK5uAcABgh59OJbe/chnUO3raLZ/F2+ah/6V6ChuAl1C6BiBnPIoG0YNEqk8NeWDGDEg==",
+        "dependencies": {
+          "MessagePack.Annotations": "3.1.3"
+        }
+      },
       "SixLabors.ImageSharp": {
         "type": "Direct",
         "requested": "[3.1.7, )",
@@ -517,12 +526,6 @@
         "type": "Transitive",
         "resolved": "9.0.3",
         "contentHash": "Ao0iegVONKYVw0eWxJv0ArtMVfkFjgyyYKtUXru6xX5H95flSZWW3QCavD4PAgwpc0ETP38kGHaYbPzSE7sw2w=="
-      },
-      "shoninsync.api": {
-        "type": "Project",
-        "dependencies": {
-          "MessagePack.Annotations": "[3.1.3, )"
-        }
       }
     }
   }

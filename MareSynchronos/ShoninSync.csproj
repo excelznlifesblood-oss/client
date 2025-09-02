@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Authors></Authors>
     <Company></Company>
-    <Version>1.2.1.0</Version>
+    <Version>1.2.1.2</Version>
     <Description></Description>
     <Copyright></Copyright>
     <PackageProjectUrl>https://github.com/ShoninSync/client</PackageProjectUrl>
@@ -42,6 +42,7 @@
     <PackageReference Include="NReco.Logging.File" Version="1.2.2" />
     <PackageReference Include="Penumbra.Api" Version="5.12.0" />
     <PackageReference Include="Penumbra.String" Version="1.0.5" />
+    <PackageReference Include="ShoninSync.API" Version="1.0.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.7" />
     <PackageReference Include="SonarAnalyzer.CSharp" Version="10.7.0.110445">
       <PrivateAssets>all</PrivateAssets>
@@ -54,10 +55,6 @@
     <SourceRevisionId>build$([System.DateTime]::UtcNow.ToString("yyyy-MM-ddTHH:mm:ss:fffZ"))</SourceRevisionId>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\MareAPI\MareSynchronosAPI\ShoninSync.API.csproj" />
-  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="CheapLoc">
