@@ -1,0 +1,128 @@
+# .azure-pipelines.yml
+trigger:
+  branches:
+    include:
+      - main
+      - feature/*
+
+pr:
+  branches:
+    include: [ '*' ]
+
+variables:
+  DOTNET_SDK: '9.0.x'
+  BUILD_CONFIGURATION: 'Release'
+  BUILD_PLATFORM: 'x64'
+  PLUGIN_PROJECT: 'MareSynchronos\ShoninSync.csproj'
+  FEED_SOURCE_URL: 'https://excelzn.pkgs.visualstudio.com/000133ad-8b16-41ad-9d35-5040d0cd2c2f/_packaging/ShoninSync/nuget/v3/index.json'
+  ZIP_REL_PATH: 'bin\x64\Release\ShoninSync\latest.zip'
+  ICON_REL_PATH: 'MareSynchronos\images\icon.png'
+
+stages:
+- stage: Build
+  displayName: Build Dalamud Plugin
+  jobs:
+  - job: build
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - checkout: self
+      clean: true
+
+    - task: UseDotNet@2
+      displayName: 'Use .NET SDK $(DOTNET_SDK)'
+      inputs:
+        packageType: 'sdk'
+        version: '$(DOTNET_SDK)'
+
+    # Auth for private feed restore
+    - task: NuGetAuthenticate@1
+      displayName: 'Authenticate to Azure Artifacts'
+
+    # Add your Azure Artifacts source for restore
+    - powershell: |
+        $name = 'AzureArtifacts'
+        $existing = & dotnet nuget list source | Select-String -Pattern "^\s*$name\s"
+        if ($existing) { & dotnet nuget remove source $name | Out-Null }
+        & dotnet nuget add source "$(FEED_SOURCE_URL)" `
+          --name $name `
+          --username "azdo" `
+          --password "$(VSS_NUGET_ACCESSTOKEN)" `
+          --store-password-in-clear-text | Out-Null
+        & dotnet nuget list source
+      displayName: 'Configure NuGet source for private feed'
+      env:
+        VSS_NUGET_ACCESSTOKEN: $(VSS_NUGET_ACCESSTOKEN)
+
+    - script: dotnet restore "$(PLUGIN_PROJECT)"
+      displayName: 'Restore'
+
+    # >>> Install Dalamud to the expected dev path
+    - powershell: |
+        $ErrorActionPreference = 'Stop'
+
+        $appData = [Environment]::GetFolderPath('ApplicationData')  # C:\Users\VssAdministrator\AppData\Roaming
+        $devDir  = Join-Path $appData 'XIVLauncher\addon\Hooks\dev'
+        New-Item -ItemType Directory -Force -Path $devDir | Out-Null
+
+        # Prefer release; fall back to staging if needed
+        $releaseUrl = 'https://goatcorp.github.io/dalamud-distrib/latest.zip'
+        $stgUrl     = 'https://goatcorp.github.io/dalamud-distrib/stg/latest.zip'
+
+        $zipPath = Join-Path $env:TEMP 'dalamud_latest.zip'
+
+        function Get-And-Extract($url) {
+          Write-Host "Downloading Dalamud from $url ..."
+          Invoke-WebRequest -Uri $url -OutFile $zipPath
+          Write-Host "Extracting to $devDir ..."
+          Expand-Archive -Path $zipPath -DestinationPath $devDir -Force
+          Remove-Item $zipPath -Force -ErrorAction SilentlyContinue
+        }
+
+        try {
+          Get-And-Extract $releaseUrl
+        } catch {
+          Write-Warning "Release channel download failed: $($_.Exception.Message) — trying staging channel..."
+          Get-And-Extract $stgUrl
+        }
+
+        # sanity check
+        $dll = Get-ChildItem -Path $devDir -Recurse -Filter 'Dalamud.dll' -ErrorAction SilentlyContinue | Select-Object -First 1
+        if (-not $dll) { throw "Dalamud.dll not found after extraction to $devDir" }
+        Write-Host "Dalamud installed to $devDir (found $($dll.FullName))"
+      displayName: 'Install Dalamud to %APPDATA%\XIVLauncher\addon\Hooks\dev'
+    - script: >
+        dotnet build "$(PLUGIN_PROJECT)"
+        --configuration $(BUILD_CONFIGURATION)
+        /p:Platform=$(BUILD_PLATFORM)
+        /p:ContinuousIntegrationBuild=true
+        --no-restore
+      displayName: 'Build (Release x64)'
+
+    # Collect ZIP + icon into a single artifact folder
+    - powershell: |
+        $projPath = "$(PLUGIN_PROJECT)"
+        if (-not (Test-Path $projPath)) { throw "PLUGIN_PROJECT not found: $projPath" }
+        $projDir = Split-Path -Path $projPath -Parent
+
+        $zipAbs  = Join-Path $projDir "$(ZIP_REL_PATH)"
+        if (-not (Test-Path $zipAbs)) { throw "ZIP not found at expected location: $zipAbs" }
+
+        $iconAbs = Join-Path "$(Build.SourcesDirectory)" "$(ICON_REL_PATH)"
+        if (-not (Test-Path $iconAbs)) { throw "Icon not found at: $iconAbs" }
+
+        $out = "$(Build.ArtifactStagingDirectory)\out"
+        New-Item -ItemType Directory -Force -Path $out | Out-Null
+        Copy-Item -LiteralPath $zipAbs  -Destination (Join-Path $out 'latest.zip') -Force
+        Copy-Item -LiteralPath $iconAbs -Destination (Join-Path $out 'icon.png') -Force
+
+        Write-Host "Staged files:"
+        Get-ChildItem $out | Format-Table Name,Length
+      displayName: 'Stage ZIP + icon'
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: plugin'
+      inputs:
+        pathToPublish: '$(Build.ArtifactStagingDirectory)/out'
+        artifactName: 'plugin'
+        publishLocation: 'Container'
