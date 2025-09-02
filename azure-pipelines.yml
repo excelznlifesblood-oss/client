@@ -14,5 +14,5 @@ steps:
     displayName: "Build App"
     inputs:
       command: build
-      arguments: '--configuration $(buildConfiguration)'
+      arguments: '--configuration Release'
   - script: 'pwd'
