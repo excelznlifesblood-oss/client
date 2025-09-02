@@ -91,7 +91,13 @@ stages:
         if (-not $dll) { throw "Dalamud.dll not found after extraction to $devDir" }
         Write-Host "Dalamud installed to $devDir (found $($dll.FullName))"
       displayName: 'Install Dalamud to %APPDATA%\XIVLauncher\addon\Hooks\dev'
-
+    - script: >
+        dotnet build "$(PLUGIN_PROJECT)"
+        --configuration $(BUILD_CONFIGURATION)
+        /p:Platform=$(BUILD_PLATFORM)
+        /p:ContinuousIntegrationBuild=true
+        --no-restore
+      displayName: 'Build (Release x64)'
 
     # Collect ZIP + icon into a single artifact folder
     - powershell: |
