@@ -1,7 +1,7 @@
-# Mare Synchronos Dalamud Plugin
+# Shonin Sync Dalamud Plugin
 
-Available at [This dalamud Repo](https://raw.githubusercontent.com/MareSynchronos/repo/main/plogonmaster.json)
+Available at [This Dalamud Repo](https://raw.githubusercontent.com/ShoninSync/repo/main/pluginmaster.json)
 
-# [Mare Synchronos Discord](https://discord.gg/5HVveFefcB)
+# [Shonin Sync Discord](https://discord.gg/shoninsync)
 
 Readme TBD
