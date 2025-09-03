@@ -233,29 +233,88 @@ stages:
         targetType: inline
         script: |
           $ErrorActionPreference = 'Stop'
-          $hdr = @{
-            "Accept"="application/vnd.github+json"; "Authorization"="Bearer $env:GITHUB_PAT";
-            "X-GitHub-Api-Version"="2022-11-28"; "User-Agent"="azure-devops-yaml"
+          # --- Auth & headers ---
+          if (-not $env:GITHUB_PAT -or [string]::IsNullOrWhiteSpace($env:GITHUB_PAT)) {
+            throw "GITHUB_PAT is missing/empty."
           }
-          $owner2="$(TARGET_REPO_OWNER)"; $repo2="$(TARGET_REPO_NAME)"; $branch2="$(TARGET_REPO_BRANCH)"; $path2="$(TARGET_FILE_PATH)"
-          $ver="$(PLUGIN_VERSION)"
-          $relBase = "https://github.com/$(PLUGIN_GH_OWNER)/$(PLUGIN_GH_REPO)/releases/download/v$ver"
-          $iconUrl = "$relBase/icon.png"; $zipUrl = "$relBase/latest.zip"
-          $contentsUrl = "https://api.github.com/repos/$owner2/$repo2/contents/$path2"
-          $curr = Invoke-RestMethod -Uri "$contentsUrl?ref=$branch2" -Headers $hdr -Method GET
-          $sha = $curr.sha
-          $rawB64 = ($curr.content -replace '\s',''); $bytes=[Convert]::FromBase64String($rawB64)
-          $text = [Text.Encoding]::UTF8.GetString($bytes)
+          $hdr = @{
+            "Accept"               = "application/vnd.github+json"
+            "Authorization"        = "Bearer $($env:GITHUB_PAT)"
+            "X-GitHub-Api-Version" = "2022-11-28"
+            "User-Agent"           = "azure-devops-yaml"
+          }
+
+          # --- Inputs (trim & normalize) ---
+          $owner2  = "$(TARGET_REPO_OWNER)".Trim()
+          $repo2   = "$(TARGET_REPO_NAME)".Trim()
+          $branch2 = "$(TARGET_REPO_BRANCH)".Trim()
+          $path2   = "$(TARGET_FILE_PATH)".Trim()            # e.g., plogonmaster.json
+          $ver     = "$(PLUGIN_VERSION)".Trim()
+
+          if ([string]::IsNullOrWhiteSpace($owner2))  { throw "TARGET_REPO_OWNER is empty." }
+          if ([string]::IsNullOrWhiteSpace($repo2))   { throw "TARGET_REPO_NAME is empty." }
+          if ([string]::IsNullOrWhiteSpace($branch2)) { throw "TARGET_REPO_BRANCH is empty." }
+          if ([string]::IsNullOrWhiteSpace($path2))   { throw "TARGET_FILE_PATH is empty." }
+          if ([string]::IsNullOrWhiteSpace($ver))     { throw "PLUGIN_VERSION is empty." }
+
+          # Normalize path to URL form (no leading slash, forward slashes only)
+          $path2 = $path2.TrimStart('/','\').Replace('\','/')
+
+          # Build contents URL safely with UriBuilder
+          $ub = New-Object System.UriBuilder("https://api.github.com")
+          $ub.Path  = ("repos/{0}/{1}/contents/{2}" -f $owner2, $repo2, $path2)
+          $ub.Query = ("ref={0}" -f [Uri]::EscapeDataString($branch2))
+          $contentsGetUri = $ub.Uri.AbsoluteUri
+
+          Write-Host "GET $contentsGetUri"
+
+          # --- Compute release asset URLs (for JSON updates) ---
+          $ownerRel = "$(PLUGIN_GH_OWNER)".Trim()
+          $repoRel  = "$(PLUGIN_GH_REPO)".Trim()
+          $relBase  = "https://github.com/$ownerRel/$repoRel/releases/download/v$ver"
+          $iconUrl  = "$relBase/icon.png"
+          $zipUrl   = "$relBase/latest.zip"
+
+          # --- 1) GET current file (to get sha + content) ---
+          $curr = Invoke-RestMethod -Uri $contentsGetUri -Headers $hdr -Method GET
+          $sha  = $curr.sha
+
+          # GitHub returns base64 with line breaks; strip whitespace before decode
+          $rawB64 = ($curr.content -replace '\s','')
+          $bytes  = [Convert]::FromBase64String($rawB64)
+          $text   = [Text.Encoding]::UTF8.GetString($bytes)
+
+          # --- 2) Update JSON (array with one object) ---
           $data = $text | ConvertFrom-Json
-          if ($data -is [System.Array]) { $items=$data } else { $items=@($data) }
+          if ($data -is [System.Array]) { $items = $data } else { $items = @($data) }
           if ($items.Count -lt 1) { throw "No objects in $path2" }
+
           $item = $items[0]
-          $item.AssemblyVersion = $ver
-          $item.IconUrl = $iconUrl
+          $item.AssemblyVersion     = $ver
+          $item.IconUrl             = $iconUrl
           $item.DownloadLinkInstall = $zipUrl
+
           $newJson = $items | ConvertTo-Json -Depth 100
-          if ($newJson -eq $text) { Write-Host "No changes to commit"; return }
+
+          if ($newJson -eq $text) {
+            Write-Host "No changes to commit in $path2"
+            return
+          }
+
           $newB64 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($newJson))
-          $body = @{ message = "$(COMMIT_MESSAGE)"; content = $newB64; branch = $branch2; sha = $sha } | ConvertTo-Json
-          $update = Invoke-RestMethod -Uri $contentsUrl -Headers $hdr -Method PUT -Body $body
-          Write-Host ("Updated {0} on {1} (commit {2})" -f $path2,$branch2,$update.commit.sha.Substring(0,7))
+
+          # --- 3) PUT updated content back to GitHub ---
+          $ubPut = New-Object System.UriBuilder("https://api.github.com")
+          $ubPut.Path = ("repos/{0}/{1}/contents/{2}" -f $owner2, $repo2, $path2)
+          $putUri = $ubPut.Uri.AbsoluteUri
+
+          $body = @{
+            message = "$(COMMIT_MESSAGE)"
+            content = $newB64
+            branch  = $branch2
+            sha     = $sha
+          } | ConvertTo-Json
+
+          Write-Host "PUT $putUri (branch=$branch2)"
+          $update = Invoke-RestMethod -Uri $putUri -Headers $hdr -Method PUT -Body $body
+          Write-Host ("Updated {0} on {1} (commit {2})" -f $path2, $branch2, $update.commit.sha.Substring(0,7))
