@@ -120,9 +120,142 @@ stages:
         Get-ChildItem $out | Format-Table Name,Length
       displayName: 'Stage ZIP + icon'
 
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact: plugin'
+    - task: PublishPipelineArtifact@1
+      displayName: 'Publish pipeline artifact: plugin'
       inputs:
-        pathToPublish: '$(Build.ArtifactStagingDirectory)/out'
-        artifactName: 'plugin'
-        publishLocation: 'Container'
+        targetPath: '$(Build.ArtifactStagingDirectory)/out'   # folder with latest.zip + icon.png
+        artifact: 'plugin'
+
+- stage: Release
+  displayName: Release to GitHub + Update Repo
+  dependsOn: Build
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  jobs:
+  - job: github_release
+    displayName: Create GitHub Release + Update plogonmaster.json
+    pool:
+      vmImage: 'windows-latest'
+    variables:
+      PLUGIN_GH_OWNER: 'excelznlifesblood-oss'
+      PLUGIN_GH_REPO:  'client'
+      TARGET_REPO_OWNER: 'excelznlifesblood-oss'
+      TARGET_REPO_NAME:  'repo'
+      TARGET_REPO_BRANCH: 'main'
+      TARGET_FILE_PATH:   'plogonmaster.json'
+      COMMIT_MESSAGE:     'chore: ShoninSync v$(PLUGIN_VERSION)'
+    steps:
+    - download: current
+      displayName: 'Download artifact: plugin'
+      artifact: plugin
+
+    # Locate files (sets ZIP_PATH, ICON_PATH)
+    - task: PowerShell@2
+      displayName: 'Locate latest.zip + icon.png'
+      inputs:
+        targetType: inline
+        script: |
+          $ErrorActionPreference = 'Stop'
+          $base = "$(Pipeline.Workspace)\plugin"
+          if (-not (Test-Path $base)) { throw "Artifact base not found: $base" }
+          $zip  = Get-ChildItem -Path $base -Recurse -Filter 'latest.zip' -ErrorAction SilentlyContinue | Select-Object -First 1
+          $icon = Get-ChildItem -Path $base -Recurse -Filter 'icon.png'   -ErrorAction SilentlyContinue | Select-Object -First 1
+          if (-not $zip)  { throw "Could not find latest.zip under $base" }
+          if (-not $icon) { throw "Could not find icon.png under $base" }
+          Write-Host "##vso[task.setvariable variable=ZIP_PATH]$($zip.FullName)"
+          Write-Host "##vso[task.setvariable variable=ICON_PATH]$($icon.FullName)"
+
+    # Detect version from ShoninSync.json inside the zip (sets PLUGIN_VERSION)
+    - task: PowerShell@2
+      displayName: 'Detect plugin version (ShoninSync.json)'
+      inputs:
+        targetType: inline
+        script: |
+          $ErrorActionPreference = 'Stop'
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          $zipPath = "$(ZIP_PATH)"
+          if (-not (Test-Path $zipPath)) { throw "ZIP not found: $zipPath" }
+          $entryName = 'ShoninSync.json'
+          $zip = [System.IO.Compression.ZipFile]::OpenRead($zipPath)
+          try {
+            $entry = $zip.Entries | Where-Object { $_.FullName -match '(^|/)' + [regex]::Escape($entryName) + '$' } | Select-Object -First 1
+            if (-not $entry) { throw "Entry '$entryName' not found inside $zipPath" }
+            $sr = New-Object System.IO.StreamReader($entry.Open(), [Text.Encoding]::UTF8)
+            try { $json = $sr.ReadToEnd() } finally { $sr.Dispose() }
+            $obj = $json | ConvertFrom-Json
+            $ver = $obj.AssemblyVersion
+            if ([string]::IsNullOrWhiteSpace($ver)) { throw "AssemblyVersion not found in $entryName" }
+          } finally { $zip.Dispose() }
+          Write-Host "##vso[task.setvariable variable=PLUGIN_VERSION]$ver"
+
+    # Create (or reuse) GitHub Release and upload assets
+    - task: PowerShell@2
+      displayName: 'GitHub Release: v$(PLUGIN_VERSION) with assets'
+      env:
+        GITHUB_PAT: $(GITHUB_PAT)   # add as a secret pipeline variable
+      inputs:
+        targetType: inline
+        script: |
+          $ErrorActionPreference = 'Stop'
+          $owner = "$(PLUGIN_GH_OWNER)"; $repo = "$(PLUGIN_GH_REPO)"
+          $tag = "v$(PLUGIN_VERSION)"
+          $targetCommitish = "$(Build.SourceVersion)"  # or your default branch
+          $zipPath = "$(ZIP_PATH)"; $iconPath = "$(ICON_PATH)"
+          $hdr = @{
+            "Accept"="application/vnd.github+json"; "Authorization"="Bearer $env:GITHUB_PAT";
+            "X-GitHub-Api-Version"="2022-11-28"; "User-Agent"="azure-devops-yaml"
+          }
+          $base = "https://api.github.com/repos/$owner/$repo/releases"
+          try { $rel = Invoke-RestMethod -Uri "$base/tags/$tag" -Headers $hdr -Method GET }
+          catch { if ($_.Exception.Response.StatusCode.Value__ -ne 404) { throw }
+                  $body = @{ tag_name=$tag; name="ShoninSync $tag"; target_commitish=$targetCommitish; draft=$false; prerelease=$false } | ConvertTo-Json
+                  $rel = Invoke-RestMethod -Uri $base -Headers $hdr -Method POST -Body $body }
+          $rid = $rel.id
+          $assets = Invoke-RestMethod -Uri "$base/$rid/assets" -Headers $hdr -Method GET
+          foreach ($n in @("latest.zip","icon.png")) {
+            $existing = $assets | Where-Object name -eq $n
+            if ($existing) { Invoke-RestMethod -Uri "https://api.github.com/repos/$owner/$repo/releases/assets/$($existing.id)" -Headers $hdr -Method DELETE | Out-Null }
+          }
+          function Upload-Asset($path,$contentType) {
+            if (-not (Test-Path $path)) { throw "Asset not found: $path" }
+            $name = [IO.Path]::GetFileName($path)
+            $uploadUrl = $rel.upload_url -replace "\{\?name,label\}$", "?name=$([uri]::EscapeDataString($name))"
+            Invoke-WebRequest -Uri $uploadUrl -Headers $hdr -Method POST -InFile $path -ContentType $contentType | Out-Null
+          }
+          Upload-Asset $zipPath "application/zip"
+          Upload-Asset $iconPath "image/png"
+
+    # Update plogonmaster.json in the other repo
+    - task: PowerShell@2
+      displayName: 'Update plogonmaster.json in excelznlifesblood-oss/repo'
+      env:
+        GITHUB_PAT: $(GITHUB_PAT)
+      inputs:
+        targetType: inline
+        script: |
+          $ErrorActionPreference = 'Stop'
+          $hdr = @{
+            "Accept"="application/vnd.github+json"; "Authorization"="Bearer $env:GITHUB_PAT";
+            "X-GitHub-Api-Version"="2022-11-28"; "User-Agent"="azure-devops-yaml"
+          }
+          $owner2="$(TARGET_REPO_OWNER)"; $repo2="$(TARGET_REPO_NAME)"; $branch2="$(TARGET_REPO_BRANCH)"; $path2="$(TARGET_FILE_PATH)"
+          $ver="$(PLUGIN_VERSION)"
+          $relBase = "https://github.com/$(PLUGIN_GH_OWNER)/$(PLUGIN_GH_REPO)/releases/download/v$ver"
+          $iconUrl = "$relBase/icon.png"; $zipUrl = "$relBase/latest.zip"
+          $contentsUrl = "https://api.github.com/repos/$owner2/$repo2/contents/$path2"
+          $curr = Invoke-RestMethod -Uri "$contentsUrl?ref=$branch2" -Headers $hdr -Method GET
+          $sha = $curr.sha
+          $rawB64 = ($curr.content -replace '\s',''); $bytes=[Convert]::FromBase64String($rawB64)
+          $text = [Text.Encoding]::UTF8.GetString($bytes)
+          $data = $text | ConvertFrom-Json
+          if ($data -is [System.Array]) { $items=$data } else { $items=@($data) }
+          if ($items.Count -lt 1) { throw "No objects in $path2" }
+          $item = $items[0]
+          $item.AssemblyVersion = $ver
+          $item.IconUrl = $iconUrl
+          $item.DownloadLinkInstall = $zipUrl
+          $newJson = $items | ConvertTo-Json -Depth 100
+          if ($newJson -eq $text) { Write-Host "No changes to commit"; return }
+          $newB64 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($newJson))
+          $body = @{ message = "$(COMMIT_MESSAGE)"; content = $newB64; branch = $branch2; sha = $sha } | ConvertTo-Json
+          $update = Invoke-RestMethod -Uri $contentsUrl -Headers $hdr -Method PUT -Body $body
+          Write-Host ("Updated {0} on {1} (commit {2})" -f $path2,$branch2,$update.commit.sha.Substring(0,7))
