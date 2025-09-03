@@ -232,7 +232,8 @@ stages:
       inputs:
         targetType: inline
         script: |
-          $ErrorActionPreference = 'Stop'
+         $ErrorActionPreference = 'Stop'
+
           # --- Auth & headers ---
           if (-not $env:GITHUB_PAT -or [string]::IsNullOrWhiteSpace($env:GITHUB_PAT)) {
             throw "GITHUB_PAT is missing/empty."
@@ -241,14 +242,14 @@ stages:
             "Accept"               = "application/vnd.github+json"
             "Authorization"        = "Bearer $($env:GITHUB_PAT)"
             "X-GitHub-Api-Version" = "2022-11-28"
-            "User-Agent"           = "azure-devops-yaml"
+            "User-Agent"           = "azure-devops-release"
           }
 
           # --- Inputs (trim & normalize) ---
           $owner2  = "$(TARGET_REPO_OWNER)".Trim()
           $repo2   = "$(TARGET_REPO_NAME)".Trim()
           $branch2 = "$(TARGET_REPO_BRANCH)".Trim()
-          $path2   = "$(TARGET_FILE_PATH)".Trim()            # e.g., plogonmaster.json
+          $path2   = "$(TARGET_FILE_PATH)".Trim()      # e.g. plogonmaster.json
           $ver     = "$(PLUGIN_VERSION)".Trim()
 
           if ([string]::IsNullOrWhiteSpace($owner2))  { throw "TARGET_REPO_OWNER is empty." }
@@ -260,42 +261,48 @@ stages:
           # Normalize path to URL form (no leading slash, forward slashes only)
           $path2 = $path2.TrimStart('/','\').Replace('\','/')
 
-          # Build contents URL safely with UriBuilder
+          # Build contents URL safely
           $ub = New-Object System.UriBuilder("https://api.github.com")
           $ub.Path  = ("repos/{0}/{1}/contents/{2}" -f $owner2, $repo2, $path2)
           $ub.Query = ("ref={0}" -f [Uri]::EscapeDataString($branch2))
           $contentsGetUri = $ub.Uri.AbsoluteUri
-
           Write-Host "GET $contentsGetUri"
 
-          # --- Compute release asset URLs (for JSON updates) ---
+          # Release asset URLs
           $ownerRel = "$(PLUGIN_GH_OWNER)".Trim()
           $repoRel  = "$(PLUGIN_GH_REPO)".Trim()
           $relBase  = "https://github.com/$ownerRel/$repoRel/releases/download/v$ver"
           $iconUrl  = "$relBase/icon.png"
           $zipUrl   = "$relBase/latest.zip"
 
-          # --- 1) GET current file (to get sha + content) ---
-          $curr = Invoke-RestMethod -Uri $contentsGetUri -Headers $hdr -Method GET
-          $sha  = $curr.sha
-
-          # GitHub returns base64 with line breaks; strip whitespace before decode
-          $rawB64 = ($curr.content -replace '\s','')
+          # --- 1) GET current file (sha + content) ---
+          $curr  = Invoke-RestMethod -Uri $contentsGetUri -Headers $hdr -Method GET
+          $sha   = $curr.sha
+          $rawB64 = ($curr.content -replace '\s','')      # strip whitespace/newlines from base64
           $bytes  = [Convert]::FromBase64String($rawB64)
           $text   = [Text.Encoding]::UTF8.GetString($bytes)
 
-          # --- 2) Update JSON (array with one object) ---
+          # --- 2) Parse JSON and ensure it is an ARRAY ---
           $data = $text | ConvertFrom-Json
-          if ($data -is [System.Array]) { $items = $data } else { $items = @($data) }
-          if ($items.Count -lt 1) { throw "No objects in $path2" }
+          if ($data -isnot [System.Array]) {
+            throw "Expected top-level JSON array in $path2; refusing to write a non-array and break Dalamud format."
+          }
+          if ($data.Count -lt 1) { throw "Top-level array is empty in $path2." }
 
-          $item = $items[0]
-          $item.AssemblyVersion     = $ver
-          $item.IconUrl             = $iconUrl
-          $item.DownloadLinkInstall = $zipUrl
+          # Find the item to update (by InternalName)
+          $target = $null
+          foreach ($it in $data) { if ($it.InternalName -eq 'ShoninSync') { $target = $it; break } }
+          if (-not $target) { throw "No entry with InternalName 'ShoninSync' found in $path2." }
 
-          $newJson = $items | ConvertTo-Json -Depth 100
+          # Update ONLY the target object
+          $target.AssemblyVersion     = $ver
+          $target.IconUrl             = $iconUrl
+          $target.DownloadLinkInstall = $zipUrl
 
+          # Serialize the ENTIRE ARRAY back
+          $newJson = $data | ConvertTo-Json -Depth 100
+
+          # Optional: skip commit if no change
           if ($newJson -eq $text) {
             Write-Host "No changes to commit in $path2"
             return
@@ -303,7 +310,7 @@ stages:
 
           $newB64 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($newJson))
 
-          # --- 3) PUT updated content back to GitHub ---
+          # --- 3) PUT updated content back (same path/branch, include sha) ---
           $ubPut = New-Object System.UriBuilder("https://api.github.com")
           $ubPut.Path = ("repos/{0}/{1}/contents/{2}" -f $owner2, $repo2, $path2)
           $putUri = $ubPut.Uri.AbsoluteUri
@@ -318,3 +325,4 @@ stages:
           Write-Host "PUT $putUri (branch=$branch2)"
           $update = Invoke-RestMethod -Uri $putUri -Headers $hdr -Method PUT -Body $body
           Write-Host ("Updated {0} on {1} (commit {2})" -f $path2, $branch2, $update.commit.sha.Substring(0,7))
+
