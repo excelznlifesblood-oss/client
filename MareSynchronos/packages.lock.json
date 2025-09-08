@@ -119,9 +119,9 @@
       },
       "ShoninSync.API": {
         "type": "Direct",
-        "requested": "[1.1.1-beta.feature-guest-access-discord.72, )",
-        "resolved": "1.1.1-beta.feature-guest-access-discord.72",
-        "contentHash": "RHdZU8e7s3SrLH+UOMcSo9jj96kWuR0B2mIYKHBV5vYbQIIBg1aVCO0cxhLLF/N1fko0gEt+oqWeW/jWE89s4Q==",
+        "requested": "[1.1.1, )",
+        "resolved": "1.1.1",
+        "contentHash": "T65dtTU4YPSMuVy2tJhCSQG7mhMvAeNjWrc761AflsyhOZteMffWf9rS2xF/bm4WE1AuvDKKiFwjJXPaZo/Ljw==",
         "dependencies": {
           "MessagePack.Annotations": "3.1.3"
         }
