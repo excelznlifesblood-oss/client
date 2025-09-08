@@ -14,6 +14,19 @@ namespace ShoninSync.WebAPI;
 
 public partial class ApiController
 {
+    public Task Client_ExpireTemporaryUser(string uid)
+    {
+        Logger.LogInformation("Temporary Access Expired {uid}", uid);
+        _serverManager.CurrentServer.FullPause = true;
+        _serverManager.CurrentServer.OAuthToken = null;
+        _serverManager.CurrentServer.SecretKeys = new Dictionary<int, SecretKey>();
+        _serverManager.Save();
+        Mediator.Publish(new NotificationMessage("Temporary Access Expired",
+            "Your temporary access to Shonin Sync has expired. Please return to the discord bot and renew your access.",
+            NotificationType.Warning));
+        return Task.CompletedTask;
+    }
+
     public Task Client_DownloadReady(Guid requestId)
     {
         Logger.LogDebug("Server sent {requestId} ready", requestId);

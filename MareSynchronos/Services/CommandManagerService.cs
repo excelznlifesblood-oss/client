@@ -14,6 +14,7 @@ namespace ShoninSync.Services;
 public sealed class CommandManagerService : IDisposable
 {
     private const string _commandName = "/shoninsync";
+    private const string _commandAlias = "/ssync";
 
     private readonly ApiController _apiController;
     private readonly ICommandManager _commandManager;
@@ -43,6 +44,20 @@ public sealed class CommandManagerService : IDisposable
                 "\t /shoninsync gpose - Opens the Shonin Sync Character Data Hub window" + Environment.NewLine +
                 "\t /shoninsync analyze - Opens the Shonin Sync Character Data Analysis window" + Environment.NewLine +
                 "\t /shoninsync settings - Opens the Shonin Sync Settings window"
+        });
+        _commandManager.AddHandler(_commandAlias, new CommandInfo(OnCommand)
+        {
+            HelpMessage = "Opens the Shonin Sync UI" + Environment.NewLine + Environment.NewLine +
+                          "Additionally possible commands:" + Environment.NewLine +
+                          "\t /ssync toggle - Disconnects from Shonin Sync, if connected. Connects to Shonin Sync, if disconnected" +
+                          Environment.NewLine +
+                          "\t /ssync toggle on|off - Connects or disconnects to Shonin Sync respectively" +
+                          Environment.NewLine +
+                          "\t /ssync gpose - Opens the Shonin Sync Character Data Hub window" +
+                          Environment.NewLine +
+                          "\t /ssync analyze - Opens the Shonin Sync Character Data Analysis window" +
+                          Environment.NewLine +
+                          "\t /ssync settings - Opens the Shonin Sync Settings window"
         });
     }
 

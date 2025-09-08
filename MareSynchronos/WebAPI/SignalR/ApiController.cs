@@ -73,6 +73,8 @@ public sealed partial class ApiController : DisposableMediatorSubscriberBase, IM
 
     public Version CurrentClientVersion => _connectionDto?.CurrentClientVersion ?? new Version(0, 0, 0);
 
+    public bool IsLimitedUser => _connectionDto?.User.isLimited ?? false;
+    
     public DefaultPermissionsDto? DefaultPermissions => _connectionDto?.DefaultPreferredPermissions ?? null;
     public string DisplayName => _connectionDto?.User.AliasOrUID ?? string.Empty;
 
@@ -228,7 +230,6 @@ public sealed partial class ApiController : DisposableMediatorSubscriberBase, IM
                 await _mareHub.StartAsync(token).ConfigureAwait(false);
 
                 _connectionDto = await GetConnectionDto().ConfigureAwait(false);
-
                 ServerState = ServerState.Connected;
 
                 var currentClientVer = Assembly.GetExecutingAssembly().GetName().Version!;
@@ -246,7 +247,6 @@ public sealed partial class ApiController : DisposableMediatorSubscriberBase, IM
                     await StopConnectionAsync(ServerState.VersionMisMatch).ConfigureAwait(false);
                     return;
                 }
-
                 if (_connectionDto.CurrentClientVersion > currentClientVer)
                 {
                     Mediator.Publish(new NotificationMessage("Client outdated",

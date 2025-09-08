@@ -20,15 +20,17 @@ using ShoninSync.WebAPI.Files;
 using ShoninSync.WebAPI.Files.Models;
 using ShoninSync.WebAPI.SignalR.Utils;
 using Microsoft.Extensions.Logging;
+using ShoninSync.MareConfiguration.Models;
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Globalization;
 using System.Numerics;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace ShoninSync.UI;
 
-public class CompactUi : WindowMediatorSubscriberBase
+public partial class CompactUi : WindowMediatorSubscriberBase
 {
     private readonly ApiController _apiController;
     private readonly MareConfigService _configService;
@@ -48,11 +50,11 @@ public class CompactUi : WindowMediatorSubscriberBase
     private string _lastAddedUserComment = string.Empty;
     private Vector2 _lastPosition = Vector2.One;
     private Vector2 _lastSize = Vector2.One;
-    private int _secretKeyIdx = -1;
     private bool _showModalForUserAddition;
     private float _transferPartHeight;
     private bool _wasOpen;
     private float _windowContentWidth;
+    
 
     public CompactUi(ILogger<CompactUi> logger, UiSharedService uiShared, MareConfigService configService, ApiController apiController, PairManager pairManager,
         ServerConfigurationManager serverManager, MareMediator mediator, FileUploadManager fileTransferManager,
@@ -133,7 +135,7 @@ public class CompactUi : WindowMediatorSubscriberBase
         SizeConstraints = new WindowSizeConstraints()
         {
             MinimumSize = new Vector2(375, 400),
-            MaximumSize = new Vector2(375, 2000),
+            MaximumSize = new Vector2(600, 2000),
         };
     }
 
@@ -191,14 +193,18 @@ public class CompactUi : WindowMediatorSubscriberBase
 
         if (_apiController.ServerState is ServerState.Connected)
         {
-            using (ImRaii.PushId("global-topmenu")) _tabMenu.Draw();
-            using (ImRaii.PushId("pairlist")) DrawPairs();
+            using (ImRaii.PushId("global-topmenu")) _tabMenu.Draw(_apiController.IsLimitedUser);
+            using (ImRaii.PushId("pairlist")) DrawPairs(_apiController.IsLimitedUser);
             ImGui.Separator();
             float pairlistEnd = ImGui.GetCursorPosY();
             using (ImRaii.PushId("transfers")) DrawTransfers();
             _transferPartHeight = ImGui.GetCursorPosY() - pairlistEnd - ImGui.GetTextLineHeight();
             using (ImRaii.PushId("group-user-popup")) _selectPairsForGroupUi.Draw(_pairManager.DirectPairs);
             using (ImRaii.PushId("grouping-popup")) _selectGroupForPairUi.Draw();
+        }
+        else
+        {
+            using (ImRaii.PushId("temp-user-reconnect")) DrawTempUserReauth();
         }
 
         if (_configService.Current.OpenPopupOnAdd && _pairManager.LastAddedUser != null)
@@ -242,7 +248,7 @@ public class CompactUi : WindowMediatorSubscriberBase
         }
     }
 
-    private void DrawPairs()
+    private void DrawPairs(bool isLimitedUser)
     {
         var ySize = _transferPartHeight == 0
             ? 1
@@ -253,7 +259,7 @@ public class CompactUi : WindowMediatorSubscriberBase
 
         foreach (var item in _drawFolders)
         {
-            item.Draw();
+            item.Draw(isLimitedUser);
         }
 
         ImGui.EndChild();
@@ -284,7 +290,7 @@ public class CompactUi : WindowMediatorSubscriberBase
         else
         {
             ImGui.AlignTextToFramePadding();
-            ImGui.TextColored(ImGuiColors.DalamudRed, "Not connected to any server");
+            ImGui.TextColored(ImGuiColors.DalamudRed, "Not connected to any server.");
         }
 
         if (printShard)
@@ -331,6 +337,26 @@ public class CompactUi : WindowMediatorSubscriberBase
             }
 
             UiSharedService.AttachToolTip(isConnectingOrConnected ? "Disconnect from " + _serverManager.CurrentServer.ServerName : "Connect to " + _serverManager.CurrentServer.ServerName);
+        }
+    }
+
+    private void DrawTempUserReauth()
+    {
+        ImGui.TextColored(ImGuiColors.DalamudRed, "If you are a temporary user, you may need to re-register.");
+        ImGui.TextColored(ImGuiColors.DalamudRed, "Just interact with the bot like you did last time.");
+        ImGui.Text("After you have done so, you can use the controls below to re-authenticate.");
+        _uiSharedService.BigText("DO NOT USE THIS IF YOU ARE NOT A GUEST USER.", ImGuiColors.DalamudRed);
+        _uiSharedService.BigText("IT WILL BREAK YOUR CONFIG.", ImGuiColors.DalamudRed);
+        ImGui.Text("CTRL+Click to activate the button.");
+        if (_uiSharedService.IconTextButton(FontAwesomeIcon.GroupArrowsRotate, "Re-Authenticate") && UiSharedService.CtrlPressed())
+        {
+            _serverManager.CurrentServer.SecretKeys.Clear();
+            _serverManager.CurrentServer.SecretKeys.Add(_serverManager.CurrentServer.SecretKeys.Any() ?
+                _serverManager.CurrentServer.SecretKeys.Max(p => p.Key) + 1 : 0, new SecretKey()
+            {
+                FriendlyName = "New Secret Key",
+            });
+            Mediator.Publish(new UiToggleMessage(typeof(TemporaryUserReAuthenticationUI)));
         }
     }
 
@@ -637,4 +663,7 @@ public class CompactUi : WindowMediatorSubscriberBase
         _wasOpen = IsOpen;
         IsOpen = false;
     }
+    
+    [GeneratedRegex("^([A-F0-9]{2})+")]
+    private static partial Regex HexRegex();
 }

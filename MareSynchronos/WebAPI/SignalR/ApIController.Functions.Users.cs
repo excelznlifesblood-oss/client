@@ -41,6 +41,12 @@ public partial class ApiController
         await CreateConnectionsAsync().ConfigureAwait(false);
     }
 
+    public async Task<bool> UserHeartbeatCheck(string UID)
+    {
+        CheckConnection();
+        return await _mareHub!.InvokeAsync<bool>(nameof(UserHeartbeatCheck), UID).ConfigureAwait(false);
+    }
+
     public async Task<List<OnlineUserIdentDto>> UserGetOnlinePairs(CensusDataDto? censusDataDto)
     {
         return await _mareHub!.InvokeAsync<List<OnlineUserIdentDto>>(nameof(UserGetOnlinePairs), censusDataDto).ConfigureAwait(false);

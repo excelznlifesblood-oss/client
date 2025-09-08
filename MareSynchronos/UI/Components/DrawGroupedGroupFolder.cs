@@ -25,7 +25,7 @@ public class DrawGroupedGroupFolder : IDrawFolder
         _uiSharedService = uiSharedService;
     }
 
-    public void Draw()
+    public void Draw(bool isLimitedUser)
     {
         if (!_groups.Any()) return;
 
@@ -72,7 +72,7 @@ public class DrawGroupedGroupFolder : IDrawFolder
             using var indent = ImRaii.PushIndent(20f);
             foreach (var entry in _groups)
             {
-                entry.Draw();
+                entry.Draw(isLimitedUser);
             }
         }
     }

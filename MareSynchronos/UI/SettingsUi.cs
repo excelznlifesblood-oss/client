@@ -623,24 +623,30 @@ public class SettingsUi : WindowMediatorSubscriberBase
     {
         _lastTab = "FileCache";
 
-        _uiShared.BigText("Export MCDF");
-
-        ImGuiHelpers.ScaledDummy(10);
-
-        UiSharedService.ColorTextWrapped("Exporting MCDF has moved.", ImGuiColors.DalamudYellow);
-        ImGuiHelpers.ScaledDummy(5);
-        UiSharedService.TextWrapped("It is now found in the Main UI under \"Your User Menu\" (");
-        ImGui.SameLine();
-        _uiShared.IconText(FontAwesomeIcon.UserCog);
-        ImGui.SameLine();
-        UiSharedService.TextWrapped(") -> \"Character Data Hub\".");
-        if (_uiShared.IconTextButton(FontAwesomeIcon.Running, "Open Shoning Sync Character Data Hub"))
+        if (!_apiController.IsLimitedUser)
         {
-            Mediator.Publish(new UiToggleMessage(typeof(CharaDataHubUi)));
+            _uiShared.BigText("Export MCDF");
+            ImGuiHelpers.ScaledDummy(10);
+            UiSharedService.ColorTextWrapped("Exporting MCDF has moved.",
+                ImGuiColors.DalamudYellow);
+            ImGuiHelpers.ScaledDummy(5);
+            UiSharedService.TextWrapped(
+                "It is now found in the Main UI under \"Your User Menu\" (");
+            ImGui.SameLine();
+            _uiShared.IconText(FontAwesomeIcon.UserCog);
+            ImGui.SameLine();
+            UiSharedService.TextWrapped(") -> \"Character Data Hub\".");
+            if (_uiShared.IconTextButton(FontAwesomeIcon.Running,
+                    "Open Shonin Sync Character Data Hub"))
+            {
+                Mediator.Publish(new UiToggleMessage(typeof(CharaDataHubUi)));
+            }
+
+            UiSharedService.TextWrapped(
+                "Note: this entry will be removed in the near future. Please use the Main UI to open the Character Data Hub.");
+            ImGuiHelpers.ScaledDummy(5);
+            ImGui.Separator();
         }
-        UiSharedService.TextWrapped("Note: this entry will be removed in the near future. Please use the Main UI to open the Character Data Hub.");
-        ImGuiHelpers.ScaledDummy(5);
-        ImGui.Separator();
 
         _uiShared.BigText("Storage");
 
@@ -1938,12 +1944,6 @@ public class SettingsUi : WindowMediatorSubscriberBase
         }
 
         ImGui.AlignTextToFramePadding();
-        ImGui.TextUnformatted("Community and Support:");
-        ImGui.SameLine();
-        if (ImGui.Button("Shonin Sync Discord"))
-        {
-            Util.OpenLink("https://discord.gg/mpNdkrTRjW");
-        }
         ImGui.Separator();
         if (ImGui.BeginTabBar("mainTabBar"))
         {

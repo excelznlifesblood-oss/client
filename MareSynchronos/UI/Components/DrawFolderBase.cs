@@ -32,7 +32,7 @@ public abstract class DrawFolderBase : IDrawFolder
     protected abstract bool RenderIfEmpty { get; }
     protected abstract bool RenderMenu { get; }
 
-    public void Draw()
+    public void Draw(bool isLimitedUser)
     {
         if (!RenderIfEmpty && !DrawPairs.Any()) return;
 
@@ -55,7 +55,7 @@ public abstract class DrawFolderBase : IDrawFolder
             var leftSideEnd = DrawIcon();
 
             ImGui.SameLine();
-            var rightSideStart = DrawRightSideInternal();
+            var rightSideStart = DrawRightSideInternal(isLimitedUser);
 
             // draw name
             ImGui.SameLine(leftSideEnd);
@@ -96,7 +96,7 @@ public abstract class DrawFolderBase : IDrawFolder
 
     protected abstract float DrawRightSide(float currentRightSideX);
 
-    private float DrawRightSideInternal()
+    private float DrawRightSideInternal(bool isLimitedUser)
     {
         var barButtonSize = _uiSharedService.GetIconButtonSize(FontAwesomeIcon.EllipsisV);
         var spacingX = ImGui.GetStyle().ItemSpacing.X;
@@ -104,8 +104,8 @@ public abstract class DrawFolderBase : IDrawFolder
 
         // Flyout Menu
         var rightSideStart = windowEndX - (RenderMenu ? (barButtonSize.X + spacingX) : spacingX);
-
-        if (RenderMenu)
+        
+        if (RenderMenu && !isLimitedUser)
         {
             ImGui.SameLine(windowEndX - barButtonSize.X);
             if (_uiSharedService.IconButton(FontAwesomeIcon.EllipsisV))

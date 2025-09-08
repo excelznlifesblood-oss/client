@@ -68,7 +68,7 @@ public class TopTabMenu
             _selectedTab = value;
         }
     }
-    public void Draw()
+    public void Draw(bool isLimitedUser)
     {
         var availableWidth = ImGui.GetWindowContentRegionMax().X - ImGui.GetWindowContentRegionMin().X;
         var spacing = ImGui.GetStyle().ItemSpacing;
@@ -80,56 +80,64 @@ public class TopTabMenu
         var btncolor = ImRaii.PushColor(ImGuiCol.Button, ImGui.ColorConvertFloat4ToU32(new(0, 0, 0, 0)));
 
         ImGuiHelpers.ScaledDummy(spacing.Y / 2f);
-
-        using (ImRaii.PushFont(UiBuilder.IconFont))
+        if (!isLimitedUser)
         {
-            var x = ImGui.GetCursorScreenPos();
-            if (ImGui.Button(FontAwesomeIcon.User.ToIconString(), buttonSize))
+            using (ImRaii.PushFont(UiBuilder.IconFont))
             {
-                TabSelection = TabSelection == SelectedTab.Individual ? SelectedTab.None : SelectedTab.Individual;
-            }
-            ImGui.SameLine();
-            var xAfter = ImGui.GetCursorScreenPos();
-            if (TabSelection == SelectedTab.Individual)
-                drawList.AddLine(x with { Y = x.Y + buttonSize.Y + spacing.Y },
-                    xAfter with { Y = xAfter.Y + buttonSize.Y + spacing.Y, X = xAfter.X - spacing.X },
-                    underlineColor, 2);
-        }
-        UiSharedService.AttachToolTip("Individual Pair Menu");
+                var x = ImGui.GetCursorScreenPos();
+                if (ImGui.Button(FontAwesomeIcon.User.ToIconString(), buttonSize))
+                {
+                    TabSelection = TabSelection == SelectedTab.Individual
+                        ? SelectedTab.None
+                        : SelectedTab.Individual;
+                }
 
-        using (ImRaii.PushFont(UiBuilder.IconFont))
-        {
-            var x = ImGui.GetCursorScreenPos();
-            if (ImGui.Button(FontAwesomeIcon.Users.ToIconString(), buttonSize))
-            {
-                TabSelection = TabSelection == SelectedTab.Syncshell ? SelectedTab.None : SelectedTab.Syncshell;
-            }
-            ImGui.SameLine();
-            var xAfter = ImGui.GetCursorScreenPos();
-            if (TabSelection == SelectedTab.Syncshell)
-                drawList.AddLine(x with { Y = x.Y + buttonSize.Y + spacing.Y },
-                    xAfter with { Y = xAfter.Y + buttonSize.Y + spacing.Y, X = xAfter.X - spacing.X },
-                    underlineColor, 2);
-        }
-        UiSharedService.AttachToolTip("Syncshell Menu");
-
-        ImGui.SameLine();
-        using (ImRaii.PushFont(UiBuilder.IconFont))
-        {
-            var x = ImGui.GetCursorScreenPos();
-            if (ImGui.Button(FontAwesomeIcon.Filter.ToIconString(), buttonSize))
-            {
-                TabSelection = TabSelection == SelectedTab.Filter ? SelectedTab.None : SelectedTab.Filter;
+                ImGui.SameLine();
+                var xAfter = ImGui.GetCursorScreenPos();
+                if (TabSelection == SelectedTab.Individual)
+                    drawList.AddLine(x with { Y = x.Y + buttonSize.Y + spacing.Y },
+                        xAfter with
+                        {
+                            Y = xAfter.Y + buttonSize.Y + spacing.Y, X = xAfter.X - spacing.X
+                        },
+                        underlineColor, 2);
             }
 
+            UiSharedService.AttachToolTip("Individual Pair Menu");
+            using (ImRaii.PushFont(UiBuilder.IconFont))
+            {
+                var x = ImGui.GetCursorScreenPos();
+                if (ImGui.Button(FontAwesomeIcon.Users.ToIconString(), buttonSize))
+                {
+                    TabSelection = TabSelection == SelectedTab.Syncshell ? SelectedTab.None : SelectedTab.Syncshell;
+                }
+                ImGui.SameLine();
+                var xAfter = ImGui.GetCursorScreenPos();
+                if (TabSelection == SelectedTab.Syncshell)
+                    drawList.AddLine(x with { Y = x.Y + buttonSize.Y + spacing.Y },
+                        xAfter with { Y = xAfter.Y + buttonSize.Y + spacing.Y, X = xAfter.X - spacing.X },
+                        underlineColor, 2);
+            }
+            UiSharedService.AttachToolTip("Syncshell Menu");
             ImGui.SameLine();
-            var xAfter = ImGui.GetCursorScreenPos();
-            if (TabSelection == SelectedTab.Filter)
-                drawList.AddLine(x with { Y = x.Y + buttonSize.Y + spacing.Y },
-                    xAfter with { Y = xAfter.Y + buttonSize.Y + spacing.Y, X = xAfter.X - spacing.X },
-                    underlineColor, 2);
+            using (ImRaii.PushFont(UiBuilder.IconFont))
+            {
+                var x = ImGui.GetCursorScreenPos();
+                if (ImGui.Button(FontAwesomeIcon.Filter.ToIconString(), buttonSize))
+                {
+                    TabSelection = TabSelection == SelectedTab.Filter ? SelectedTab.None : SelectedTab.Filter;
+                }
+
+                ImGui.SameLine();
+                var xAfter = ImGui.GetCursorScreenPos();
+                if (TabSelection == SelectedTab.Filter)
+                    drawList.AddLine(x with { Y = x.Y + buttonSize.Y + spacing.Y },
+                        xAfter with { Y = xAfter.Y + buttonSize.Y + spacing.Y, X = xAfter.X - spacing.X },
+                        underlineColor, 2);
+            }
+            UiSharedService.AttachToolTip("Filter");
         }
-        UiSharedService.AttachToolTip("Filter");
+  
 
         ImGui.SameLine();
         using (ImRaii.PushFont(UiBuilder.IconFont))
@@ -170,7 +178,7 @@ public class TopTabMenu
         }
         else if (TabSelection == SelectedTab.UserConfig)
         {
-            DrawUserConfig(availableWidth, spacing.X);
+            DrawUserConfig(availableWidth, spacing.X, isLimitedUser);
         }
 
         if (TabSelection != SelectedTab.None) ImGuiHelpers.ScaledDummy(3f);
@@ -483,21 +491,31 @@ public class TopTabMenu
         }
     }
 
-    private void DrawUserConfig(float availableWidth, float spacingX)
+    private void DrawUserConfig(float availableWidth, float spacingX, bool isLimitedUser)
     {
         var buttonX = (availableWidth - spacingX) / 2f;
-        if (_uiSharedService.IconTextButton(FontAwesomeIcon.UserCircle, "Edit ShoninSync Profile", buttonX))
+        if (!isLimitedUser)
         {
-            _mareMediator.Publish(new UiToggleMessage(typeof(EditProfileUi)));
+            if (_uiSharedService.IconTextButton(FontAwesomeIcon.UserCircle,
+                    "Edit ShoninSync Profile", buttonX))
+            {
+                _mareMediator.Publish(new UiToggleMessage(typeof(EditProfileUi)));
+            }
+
+            UiSharedService.AttachToolTip("Edit your ShoninSync Profile");
+            ImGui.SameLine();
         }
-        UiSharedService.AttachToolTip("Edit your ShoninSync Profile");
-        ImGui.SameLine();
+
         if (_uiSharedService.IconTextButton(FontAwesomeIcon.PersonCircleQuestion, "Chara Data Analysis", buttonX))
         {
             _mareMediator.Publish(new UiToggleMessage(typeof(DataAnalysisUi)));
         }
         UiSharedService.AttachToolTip("View and analyze your generated character data");
-        if (_uiSharedService.IconTextButton(FontAwesomeIcon.Running, "Character Data Hub", availableWidth))
+        if (isLimitedUser)
+        {
+            ImGui.SameLine();
+        }
+        if (_uiSharedService.IconTextButton(FontAwesomeIcon.Running, "Character Data Hub", isLimitedUser ? buttonX : availableWidth))
         {
             _mareMediator.Publish(new UiToggleMessage(typeof(CharaDataHubUi)));
         }

@@ -1142,5 +1142,6 @@ public partial class UiSharedService : DisposableMediatorSubscriberBase
         return result;
     }
     public sealed record IconScaleData(Vector2 IconSize, Vector2 NormalizedIconScale, float OffsetX, float IconScaling);
-    private record UIDAliasPair(string? UID, string? Alias);
+
+    public record UIDAliasPair(string? UID, string? Alias);
 }
